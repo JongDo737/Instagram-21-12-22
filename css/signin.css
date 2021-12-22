@@ -11,6 +11,7 @@ article {
 .si-title-img {
     display: flex;
     align-items: center;
+    margin: 0px 20px 0px 0px;
 }
 
 .si-items {
@@ -54,6 +55,11 @@ article {
     outline: none;
     padding: 9px 8px 8px;
     font-size: 12px;
+    background: #fafafa;
+}
+.si-input::placeholder{
+    color: rgb(142, 142, 142);
+    font-weight: 300;
 }
 .si-submit-btn{
     border: none;
@@ -66,6 +72,7 @@ article {
     background-color: #0095f6;
     color: white;
     font-weight: 500;
+    cursor: pointer;
 }
 .hr-sect {
     margin: 10px 40px 18px;
@@ -89,4 +96,42 @@ article {
 .hr-sect span{
     margin: 0px 15px;
     color: #8e8e8e;
+}
+.si-facebook{
+    margin: 8px 40px;
+    height: 20px;
+    color: #385185;
+    font-weight: 500;
+}
+.si-find-password{
+    margin: 12px 0px 0px;
+    color: rgb(0, 55, 107);
+    font-size: 12px;
+    font-weight: 300;
+}
+.si-signup {
+    border: 1px solid #dbdbdb;
+    background-color: #fff;
+    margin: 0px 0px 10px;
+    padding: 10px 0px;
+    width: 350px;
+}
+.si-signup-text {
+    margin: 15px 0px;
+    text-align: center;
+    color: #262626;
+    font-weight: 300;
+}
+.si-signup-text a{
+    color: #0095f6;
+    font-size: 16px;
+    font-weight: 450;
+}
+.si-download-text{
+    margin: 10px 0;
+    font-weight: 300;
+}
+.si-download-btns{
+    margin: 10px 0px;
+
 }
