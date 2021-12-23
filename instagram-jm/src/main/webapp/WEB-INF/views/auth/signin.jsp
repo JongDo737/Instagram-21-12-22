@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="si-signup">
-                        <div class="si-signup-text">계정이 없으신가요? <a href="#">가입하기</a></div>
+                        <div class="si-signup-text">계정이 없으신가요? <a href="/auth/signup">가입하기</a></div>
                     </div>
                     <div class="si-download-text">
                         앱을 다운로드 하세요.

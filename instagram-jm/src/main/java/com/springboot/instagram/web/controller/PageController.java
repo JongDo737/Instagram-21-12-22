@@ -16,4 +16,9 @@ public class PageController {
 	public String signinForm() {
 		return "auth/signin";
 	}
+	
+	@GetMapping("/auth/signup")
+	public String signupForm() {
+		return "auth/signup";
+	}
 }
