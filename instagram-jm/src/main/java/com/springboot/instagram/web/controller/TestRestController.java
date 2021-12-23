@@ -7,42 +7,32 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.instagram.web.dto.TestDto;
 
-@Controller
-public class TestController {
+@RestController
+public class TestRestController {
 	
 	
-	@RequestMapping(value = "/test1", method = RequestMethod.GET)
-	public String testPage() {
-		return "test";
-	}
-	
-	@RequestMapping(value = "/test-submit", method = RequestMethod.POST)
-	public String testSubmit(TestDto testDto) {
-		System.out.println(testDto);
-		return "test";
-	}
-	
-	@GetMapping("/test-get")
+	@GetMapping("/test-get2")
 	public String testGet() {
 		System.out.println("Get 요청옴.");
-		return "test";
+		return "get 요청";
 	}
-	@PostMapping("/test-post")
+	@PostMapping("/test-post2")
 	public String testPost() {
 		System.out.println("Post 요청옴.");
-		return "test";
+		return "post 요청";
 	}
-	@PutMapping("/test-put")
+	@PutMapping("/test-put2")
 	public String testPut() {
 		System.out.println("Put 요청옴.");
-		return "test";
+		return "put 요청";
 	}
-	@DeleteMapping("/test-delete")
+	@DeleteMapping("/test-delete2")
 	public String testDelete() {
 		System.out.println("Delete 요청옴.");
-		return "test";
+		return "delete 요청";
 	}
 }
