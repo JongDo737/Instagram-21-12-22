@@ -5,7 +5,20 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2021-12-22T08:01:32Z</updated>
+  <updated>2021-12-22T21:02:57Z</updated>
+  <entry>
+    <title>Spring Cloud Square 0.4.0 has been released</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/12/22/spring-cloud-square-0-4-0-has-been-released" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Olga Maciaszek-Sharma</name>
+    </author>
+    <id>tag:spring.io,2021-12-22:4657</id>
+    <updated>2021-12-22T21:02:57Z</updated>
+    <content type="html">&lt;p&gt;On behalf of the community, I am pleased to announce that the 0.4.0 release of &lt;a href="https://github.com/spring-projects-experimental/spring-cloud-square"&gt;Spring Cloud Square&lt;/a&gt; is available today. The release can be found in &lt;a href="https://repo.maven.apache.org/maven2/org/springframework/cloud/spring-cloud-square-dependencies/0.4.0/"&gt;Maven Central&lt;/a&gt;. You can check out the 0.4.0 &lt;a href="https://github.com/spring-projects-experimental/spring-cloud-square/releases/tag/v0.4.0"&gt;release notes for more information&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The documentation for this release can be found &lt;a href="https://spring-projects-experimental.github.io/spring-cloud-square/docs/current/reference/html/index.html"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
   <entry>
     <title>Spring Native 0.11.1 available now</title>
     <link rel="alternate" href="https://spring.io/blog/2021/12/22/spring-native-0-11-1-available-now" />
@@ -3080,39 +3093,6 @@ public class BookInput {&#xD;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Tools 4.13.0 released</title>
-    <link rel="alternate" href="https://spring.io/blog/2021/12/08/spring-tools-4-13-0-released" />
-    <category term="releases" label="Releases" />
-    <author>
-      <name>Martin Lippert</name>
-    </author>
-    <id>tag:spring.io,2021-12-08:4636</id>
-    <updated>2021-12-08T19:30:00Z</updated>
-    <content type="html">&lt;p&gt;Dear Spring Community,&lt;/p&gt;
-&lt;p&gt;I am happy to announce the 4.13.0 release of the Spring Tools 4 for Eclipse, Visual Studio Code, and Theia.&lt;/p&gt;&lt;h4&gt;&lt;a href="#major-changes-to-the-spring-tools-4-for-eclipse-distribution" class="anchor" name="major-changes-to-the-spring-tools-4-for-eclipse-distribution"&gt;&lt;/a&gt;major changes to the Spring Tools 4 for Eclipse distribution&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;updated to Eclipse 2021-12 release (including support for Java 17) (&lt;a href="https://www.eclipse.org/eclipseide/2021-12/"&gt;new and noteworthy&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;builds for Apple Silicon platform (ARM M1) are available now from the regular download page&lt;/li&gt;
-&lt;/ul&gt;&lt;h4&gt;&lt;a href="#additional-changes" class="anchor" name="additional-changes"&gt;&lt;/a&gt;additional changes&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;em&gt;(Spring Boot)&lt;/em&gt; fixed: STS 4.12.0 (for eclipse) *.yml can&amp;rsquo;t automatic prompt (&lt;a href="https://github.com/spring-projects/sts4/issues/690"&gt;#690&lt;/a&gt;)
-&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;(Spring Boot)&lt;/em&gt; fixed: A StackOverFlow error for serializable Kotlin data class for autocompletion in the Eclipse IDE (&lt;a href="https://github.com/spring-projects/sts4/issues/693"&gt;#693&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;(Eclipse)&lt;/em&gt; fixed: Typescript comparison: An internal error occurred during: &amp;ldquo;LSP4E Linked Editing Highlight&amp;rdquo; (&lt;a href="https://github.com/spring-projects/sts4/issues/700"&gt;#700&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;(Eclipse)&lt;/em&gt; fixed: js syntax highlight disabled by STS4 (&lt;a href="https://github.com/spring-projects/sts4/issues/702"&gt;#702&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;(Eclipse)&lt;/em&gt; fixed: Cannot copy/paste from ANSI console without escape sequences (&lt;a href="https://github.com/spring-projects/sts4/issues/667"&gt;#667&lt;/a&gt;) - fixed in ANSI Color Console project thanks to @mihnita&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;To download the distribution for Eclipse and find links to the marketplace entries for Visual Studio Code and Theia, please go visit:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Spring Tools 4: &lt;a href="https://spring.io/tools/"&gt;https://spring.io/tools/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;If you are updating an existing Spring Tools 4 installation, please make sure you to prepare your installation propertly this time: &lt;a href="https://twitter.com/springtools4/status/1468587842838355980"&gt;https://twitter.com/springtools4/status/1468587842838355980&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Detailed changes can be found here: &lt;a href="https://github.com/spring-projects/sts4/wiki/Changelog#2021-12-08-4130-release-incl-language-servers-version-1290"&gt;https://github.com/spring-projects/sts4/wiki/Changelog#2021-12-08-4130-release-incl-language-servers-version-1290&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Spring Tools 4.13.1 is scheduled to be released in early Feb 2022.&lt;/p&gt;
-&lt;p&gt;Enjoy!&lt;/p&gt;
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
   </entry>
 </feed>
