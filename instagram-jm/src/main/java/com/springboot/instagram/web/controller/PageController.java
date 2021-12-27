@@ -26,4 +26,10 @@ public class PageController {
 		return "auth/signup";
 	}
 	
+	@GetMapping("/accounts/edit")
+	public String accountEditForm(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		//계정 정보들이 들어가있음
+		return "account/accounts_edit";
+	}
+	
 }
