@@ -19,3 +19,11 @@ a{
     color: black;
     text-decoration: none;
 }
+ul{
+    list-style: none;
+
+}
+.container{
+    width: 935px;
+    margin: 30px auto 0px;
+}
