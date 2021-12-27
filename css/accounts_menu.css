@@ -1,0 +1,26 @@
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-li-a-select{
+    display: block;
+    border-left: 2px;
+    border-color: black;
+    padding: 16px 16px 16px 30px;
+    width: 236px;
+    height: 20px;
+}
+
+.menu-li-a{
+    display: block;
+    padding: 16px 16px 16px 30px;
+    width: 236px;
+    height: 52px;
+
+}
+.menu-li-a:hover{
+
+}
