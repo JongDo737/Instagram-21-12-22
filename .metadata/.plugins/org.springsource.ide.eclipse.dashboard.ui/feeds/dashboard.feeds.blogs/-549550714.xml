@@ -5,7 +5,127 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2021-12-23T12:00:00Z</updated>
+  <updated>2021-12-29T08:00:00Z</updated>
+  <entry>
+    <title>Go, Go, GraalVM with Spring Native: My Adventures in Native Image-ville</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/12/29/go-go-graalvm-with-spring-native-my-adventures-in-native-image-ville" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2021-12-21:4651</id>
+    <updated>2021-12-29T08:00:00Z</updated>
+    <content type="html">&lt;p&gt;Hi, Spring fans! Happy new year! I can&amp;rsquo;t believe we quickly got this far, but we did. This last year&amp;rsquo;s been insanely busy, and one of the things I&amp;rsquo;ve most loved is all the opportunities to use Spring Native to build GraalVM-powered architecture-specific native images.&lt;/p&gt;
+&lt;p&gt;We released &lt;a href="https://spring.io/blog/2021/12/09/new-aot-engine-brings-spring-native-to-the-next-level"&gt;Spring Native 0.11&lt;/a&gt;, which is fantastic because it features a brand new AOT (ahead-of-time) engine that completely reworks how we transpile Spring Boot applications into GraalVM native images. I&amp;rsquo;ve been working with GraalVM a lot over the last two years, and this new release is a vast, revolutionary step in the story of Spring Native and a giant leap forward on the journey to Spring Framework 6 and Spring Boot 3, both of which will land in 2022. &lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ve been tinkering with the new release a lot over the last month, too. Spring Native works well for a ton of use cases supported by Spring itself, and so, for most applications, I&amp;rsquo;ve found things work just fine with no changes. That said, some things will not work in a Spring Native context or any GraalVM context without some help. For example, it would help if you told GraalVM what you&amp;rsquo;re doing that might confound it - proxies, serialization, resource-loading, etc. Spring Native provides a mechanism - &lt;em&gt;hints&lt;/em&gt; - by which you can do this. It&amp;rsquo;s easy. But it still has to be done. So, I&amp;rsquo;ve been going around to some projects that I think would probably need some help and trying to make them work.&lt;/p&gt;&lt;h3&gt;&lt;a href="#mybatis-and-spring-native" class="anchor" name="mybatis-and-spring-native"&gt;&lt;/a&gt;MyBatis and Spring Native&lt;/h3&gt;
+&lt;p&gt;I got Spring and MyBatis to work well and put that in a sample branch. &lt;a href="https://joshlong.com/jl/blogPost/mybatis-and-spring-native.html"&gt;See this blog for more on that&lt;/a&gt;. It was challenging to get Spring and the MyBatis Spring Boot autoconfiguration to work. I started rebuilding the autoconfiguration, bit by bit, and managed to build an inarguably less helpful, less robust &lt;a href="https://github.com/joshlong/mybatis-spring-native/tree/mybatis-spring-boot"&gt;Spring Boot autoconfiguration for MyBatis that works well with Spring Native, too&lt;/a&gt;. Hopefully, we can use that as a foundation and figure out how to bridge the gap and get the provided, supported autoconfiguration working as well. I&amp;rsquo;m already talking to some folks on the MyBatis team about possibly including some of this work. (Fingers crossed!). With this proof-of-concept Spring Boot autoconfiguration and Spring Native configuration, you can create a MyBatis SQL Mapper like this: &lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;&lt;br/&gt;@Mapper&#xD;
+public interface CityMapper {&#xD;
+&#xD;
+	@Insert(&amp;quot;INSERT INTO city (name, state, country) VALUES(#{name}, #{state}, #{country})&amp;quot;)&#xD;
+	@Options(useGeneratedKeys = true, keyProperty = &amp;quot;id&amp;quot;)&#xD;
+	void insert(City city);&#xD;
+&#xD;
+	@Select(&amp;quot;SELECT id, name, state, country FROM city &amp;quot;)&#xD;
+	Collection&amp;lt;City&amp;gt; findAll();&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;&lt;a href="#spring-retrosocket-and-spring-native" class="anchor" name="spring-retrosocket-and-spring-native"&gt;&lt;/a&gt;Spring Retrosocket and Spring Native&lt;/h3&gt;
+&lt;p&gt;I also updated the &lt;a href="https://github.com/spring-projects-experimental/spring-retrosocket"&gt;Spring Retrosocket&lt;/a&gt; project to work with Spring Native](&lt;a href="https://github.com/spring-projects-experimental/spring-retrosocket)"&gt;https://github.com/spring-projects-experimental/spring-retrosocket)&lt;/a&gt;. Spring Retrosocket is a declarative &lt;a href="https://github.com/OpenFeign/feign"&gt;Feign&lt;/a&gt;- or &lt;a href="https://square.github.io/retrofit/"&gt;Retrofit&lt;/a&gt;-like client for RSocket-based services.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;@RSocketClient&#xD;
+interface GreetingsClient {&#xD;
+&#xD;
+	@MessageMapping(&amp;quot;hello&amp;quot;)&#xD;
+	Mono&amp;lt;String&amp;gt; hello(Mono&amp;lt;String&amp;gt; name);&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;&lt;a href="#the-kubernetes-java-client-and-spring-native" class="anchor" name="the-kubernetes-java-client-and-spring-native"&gt;&lt;/a&gt;The Kubernetes Java Client and Spring Native&lt;/h3&gt;
+&lt;p&gt;Then, I turned my attention to making the Kubernetes Java client work well in a Spring Native and GraalVM context. The Kubernetes Java client is essential if you want to build memory-efficient controllers and operators for Kubernetes. Did I mention that GraalVM native images are &lt;em&gt;very&lt;/em&gt; memory efficient? It depends on what you&amp;rsquo;re doing in your application, of course, but my typical applications end up taking anywhere from 40 to 55 megabytes of RAM (well, &lt;a href="https://en.wikipedia.org/wiki/Resident_set_size"&gt;RSS&lt;/a&gt;, specifically). And that&amp;rsquo;s in addition to startup in only tens of milliseconds. The official Kubernetes-for-Java client has a Spring Boot autoconfiguration. So all I had to do was write the &lt;a href="https://github.com/kubernetes-native-java/spring-native-kubernetes/blob/main/src/main/java/io/kubernetes/nativex/KubernetesApiNativeConfiguration.java"&gt;trivial Spring Native configuration&lt;/a&gt; required to make such applications work well in a Spring Native and GraalVM context. &lt;a href="https://joshlong.com/jl/blogPost/kubernetes-java-client-and-spring-native-and-graalvm.html"&gt;I explain it here&lt;/a&gt; in detail. Suffice it to say it&amp;rsquo;s now possible to use your favorite development framework not just to build excellent Kubernetes resources and controllers but deploy them in a low-footprint fashion to your organization&amp;rsquo;s clusters.&lt;/p&gt;&lt;h3&gt;&lt;a href="#spring-graphql-and-spring-native" class="anchor" name="spring-graphql-and-spring-native"&gt;&lt;/a&gt;Spring GraphQL and Spring Native&lt;/h3&gt;
+&lt;p&gt;Then, I turned my attention to Spring GraphQl and Spring Native. Spring GraphQL works pretty well as long as you override how the &lt;code&gt;GraphQlSourceBuilder&lt;/code&gt; derives the Spring Framework &lt;code&gt;Resource&lt;/code&gt; instances used to feed the engine the schema for your GraphQL endpoints. It&amp;rsquo;s not as easy as it could be, but it&amp;rsquo;s still only an extra &lt;code&gt;@Bean&lt;/code&gt; or two or so lines of code to make it work. Fine. The trouble starts when you&amp;rsquo;re using Spring GraphQL and want to query the metamodel for Spring GraphQL&amp;rsquo;s schema itself. Having the GraphQL metamodel is convenient when, for example, you&amp;rsquo;re using the &lt;code&gt;/graphiql/&lt;/code&gt; interactive console to query the data. &lt;em&gt;That&lt;/em&gt; took some doing, but I did it. I explain &lt;a href="https://joshlong.com/jl/blogPost/spring-graphql-and-spring-native.html"&gt;that further in this post&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;With that, I can deploy a GraphQL controller like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;&lt;br/&gt;@Controller&#xD;
+class CustomerGraphQlController {&#xD;
+&#xD;
+	private final CustomerRepository repository;&#xD;
+ 	&#xD;
+ 	CustomerGraphQlController(CustomerRepository repository) {&#xD;
+ 		this.repository = repository ;&#xD;
+ 	} &#xD;
+&#xD;
+	@QueryMapping&#xD;
+	Flux&amp;lt;Customer&amp;gt; customers() {&#xD;
+		return this.repository.findAll();&#xD;
+	}&#xD;
+}&#xD;
+&#xD;
+record Customer(@Id Integer id, String name) {&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&amp;hellip;that uses the following schema: &lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint"&gt;type Query {&#xD;
+    customers : [Customer]&#xD;
+}&#xD;
+type Customer {&#xD;
+    id: ID&#xD;
+    name :String&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then open the example up at &lt;code&gt;http://localhost:8080/graphiql/&lt;/code&gt; and issue the following query: &lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint"&gt;query {&#xD;
+ customers { id, name }&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And get the results I was expecting! &lt;/p&gt;&lt;h3&gt;&lt;a href="#miscellaneous" class="anchor" name="miscellaneous"&gt;&lt;/a&gt;Miscellaneous&lt;/h3&gt;
+&lt;p&gt;I&amp;rsquo;ve also been dealing with many other things I wanted to get working with Spring Native. So here&amp;rsquo;s the Spring Native configuration for &lt;a href="https://github.com/joshlong/template-spring-boot-starter/blob/master/src/main/java/com/joshlong/templates/graalvm/TemplateNativeConfiguration.java"&gt;CommonMark, a Markdown parser in Java&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;Here are the various classes I had to add to make Apache Lucene work in a Spring Native project. Of course, this example is more involved and uses GraalVM substitutions and a typical Spring Native configuration. But it works, and well, too! &lt;/p&gt;
+&lt;p&gt;Oh, and did I mention I worked with Ronald Dehuysser to get Jobrunr, a distributed job scheduling engine, working in a GraalVM context with Spring Native? Because I did, and the result is &lt;em&gt;awesome&lt;/em&gt;! &lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ve done all this in just the last few weeks: the possibilities are endless, and I can&amp;rsquo;t wait to see more and more of the wide and world of Springdom sprout GraalVM integrations. &lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>This Year in Spring - December 28th, 2021</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/12/28/this-year-in-spring-december-28th-2021" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2021-12-28:4659</id>
+    <updated>2021-12-28T08:00:00Z</updated>
+    <content type="html">&lt;p&gt;Hi, Spring fans! How&amp;rsquo;re you doin&amp;rsquo;? I&amp;rsquo;m fresh off a fantastic holiday spent with family in Los Angeles, California. Later today, the girls and I will drive home to San Francisco, California. I&amp;rsquo;ve enjoyed my visits with people here in Los Angeles, especially since it&amp;rsquo;s our first actual visit to Los Angeles before the pandemic. &lt;/p&gt;
+&lt;p&gt;And now, (can you believe it?), we&amp;rsquo;re staring down the new year. As always, I will do my yearly &lt;em&gt;This Year in Spring&lt;/em&gt; roundup, so stay tuned for that below, after our weekly roundup. So, without further ado, here&amp;rsquo;s the last &lt;em&gt;This Week in Spring&lt;/em&gt; recap of 2021. &lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/12/23/a-bootiful-podcast-hbase-and-cassandra-cofounder-and-yugabyte-cto-karthik-ranganathan"&gt;A Bootiful Podcast: HBase and Cassandra cofounder and Yugabyte CTO Karthik Ranganathan&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://blog.codecentric.de/en/2021/12/migrating-spring-boot-java-17-day-2/?hss_channel=tw-16497594"&gt;Migrating a Spring Boot application to Java 17 ? the hard way: Day 2&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/12/21/spring-boot-2-5-8-available-now"&gt;Spring Boot 2.5.8 available now&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/12/21/spring-boot-2-6-2-available-now"&gt;Spring Boot 2.6.2 available now&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/12/22/spring-cloud-square-0-4-0-has-been-released"&gt;Spring Cloud Square 0.4.0 has been released&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/12/21/spring-integration-5-5-7-available"&gt;Spring Integration 5.5.7 Available&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/12/22/spring-native-0-11-1-available-now"&gt;Spring Native 0.11.1 available now&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/12/22/spring-tips-controllers-wrap-up"&gt;Spring Tips: @Controllers: Wrap Up&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://www.atomicjar.com/2021/11/announcing-testcontainers-cloud/"&gt;Announcing Testcontainers Cloud: Integration Testing has never been easier&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://kubernetes.io/blog/2021/12/22/kubernetes-in-kubernetes-and-pxe-bootable-server-farm/"&gt;Blog: Kubernetes-in-Kubernetes and the WEDOS PXE bootable server farm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;And now, let&amp;rsquo;s look at some of the most significant events of 2021, in my view.&lt;/p&gt;&lt;h2&gt;&lt;a href="#spring-native-and-graalvm" class="anchor" name="spring-native-and-graalvm"&gt;&lt;/a&gt;Spring Native and GraalVM&lt;/h2&gt;
+&lt;p&gt;You&amp;rsquo;ve probably grown weary of me talking about Spring Native, but I can&amp;rsquo;t help myself: it&amp;rsquo;s awesome! GraalVM is a drop-in replacement for OpenJDK that includes an extra tool called &lt;code&gt;native-image&lt;/code&gt;, which you can add after installing the GraalVM distribution. The &lt;code&gt;native-image&lt;/code&gt; tool is an ahead-of-time (AOT) compiler that turns your &lt;code&gt;.class&lt;/code&gt; files into architecture-specific machine code. It&amp;rsquo;s a native image. Which means you lose the benefits of portability. Which isn&amp;rsquo;t great. But, and there is a big &lt;em&gt;but&lt;/em&gt;, here: the resulting binary is self-contained, takes minimal RAM at runtime, and starts up at 10x or more the speed of the equivalent JRE-bound application. A self-contained binary is a great thing because it means you can package it into a tiny operating system footprint, ideal for distribution in a Docker image. It takes minimal RAM (or, more specifically, &lt;em&gt;RSS&lt;/em&gt;), requiring very little memory at runtime. This is also ideal for distribution in a Docker image and on a container orchestrator like Kubernetes because it means that you can deploy many times more instances of the application with the same resources that would&amp;rsquo;ve been required to run the application on the JRE. And, finally, it starts up &lt;em&gt;fast&lt;/em&gt;. Real fast. My Spring Boot applications routinely startup anywhere from 20-75ms, depending on what the application does. For example, you can imagine how useful this would be in a serverless context. There are some other benefits to using GraalVM as well. Did you know that you could use GraalVM to turn your application into a linked library? Like a &lt;code&gt;.dll&lt;/code&gt;, &lt;code&gt;.dylib&lt;/code&gt;, or &lt;code&gt;.so&lt;/code&gt;? That means you could link other applications to the functionality offered by your Spring Boot code. Check out this most recent &lt;a href="https://twitter.com/SpringTipsLive"&gt;&lt;em&gt;Spring Tips&lt;/em&gt; (@SpringTipsLive)&lt;/a&gt; video I did &lt;a href="https://www.youtube.com/watch?v=DVo5vmk5Cuw&amp;t=2268s"&gt;introducing Spring Native 0.11.x&lt;/a&gt;. You can get started right now by going to the &lt;a href="https://start.spring.io"&gt;Spring Initializr (start.spring.io)&lt;/a&gt; and choosing &lt;code&gt;Spring Native&lt;/code&gt;.&lt;/p&gt;
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/DVo5vmk5Cuw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;&lt;h2&gt;&lt;a href="#spring-graphql" class="anchor" name="spring-graphql"&gt;&lt;/a&gt;Spring GraphQL&lt;/h2&gt;
+&lt;p&gt;In 2012, Facebook tried to figure out how to walk the microservices walk when building their clients. There&amp;rsquo;s a natural tension there: clients want all the related data in one fell swoop, while the services want to be separate and modular. So, how could both sides get what they wanted? They created GraphQL to provide a way to query an API and get as much or as little of the data as requested. You could build the API in terms of a graph of services, but the client needn&amp;rsquo;t know that. They didn&amp;rsquo;t have to care about the network calls required to resolve payload requests of a given shape. That was all hidden behind the API. Facebook open-sourced GraphQL in 2015, and that work has gone on to become quite popular in various communities, not least of all the Java community. The community needed a slick integration for Spring users, and so we - the Spring team - reached out to the GraphQL Java project to see if we could collaborate on an integration. GraphQL Java is the basis of the Spring GraphQL project. It&amp;rsquo;s a lightning-fast integration for GraphQL that now powers the likes of Twitter.com. It&amp;rsquo;s fast and battle-tested. Spring GraphQL builds upon that solid foundation to provide a conversational component model for Spring developers that will feel natural to developers who have used Spring&amp;rsquo;s support for building MVC, REST, RSocket, and WebSocket-based controllers. &lt;/p&gt;
+&lt;p&gt;I did a &lt;a href="https://twitter.com/springtipslive"&gt;Spring Tips&lt;/a&gt; video that &lt;a href="https://www.youtube.com/watch?v=kVSYVhmvNCI&amp;list=PLgGXSWYM2FpPw8rV0tZoMiJYSCiLhPnOc&amp;index=11"&gt;introduces Spring GraphQL here&lt;/a&gt;.&lt;/p&gt;
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/kVSYVhmvNCI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;&lt;h2&gt;&lt;a href="#java-17" class="anchor" name="java-17"&gt;&lt;/a&gt;Java 17&lt;/h2&gt;
+&lt;p&gt;This year, Oracle and the Java community released Java 17, the next long-term supported version of Java. It is &lt;em&gt;awesome&lt;/em&gt;. It is also the latest long-term support release of Java, which means that if you&amp;rsquo;re conservative and wish to hew to the stable, well-supported versions of Java, this is the release for you. If you want the latest and greatest, this is also the right release for you (until Java 18 arrives). I &lt;em&gt;love&lt;/em&gt; Java 17. And, now that GraalVM supports Java 17, there&amp;rsquo;s no reason for it not to be your main release, no matter what OpenJDK distribution you&amp;rsquo;re targeting. Java 8 is an inexcusably old and irrelevant version of Java. There&amp;rsquo;s no excuse to be using it today for any reason whatsoever except that perhaps you want to study the antiquities. Based on the version number, Java 17 is more than twice as good as Java 8. &lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s a list of my favorite features since Java 8.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;records&lt;/code&gt; are a great way to describe types that are nothing more than the state in those types. These are analogous to &lt;code&gt;case&lt;/code&gt; classes in Scala and &lt;code&gt;data&lt;/code&gt; classes in Kotlin. They can reduce reams of boilerplate code to just a single line.&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;var&lt;/code&gt; and auto type-inference.&lt;/li&gt;
+  &lt;li&gt;multi-line &lt;code&gt;String&amp;#39;s (hooray! I can&amp;#39;t believe this is finally in Java!) so you can give the tedious&lt;/code&gt;String` concatenation of yesteryear a rest.&lt;/li&gt;
+  &lt;li&gt;sealed-types are a way to constrain the subclasses of a given type, which is particularly useful when you want to switch over all the permutations of a type hierarchy exhaustively.&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;private&lt;/code&gt; methods in interfaces. This builds upon the support for &lt;code&gt;default&lt;/code&gt; methods introduced in Java 8&lt;/li&gt;
+  &lt;li&gt;The diamond operator for anonymous inner classes. The diamond operator arrived in Java 7 but only recently started to work for anonymous inner classes.&lt;/li&gt;
+  &lt;li&gt;Much smarter error messages. For example, you can get an intuitive error when you cause a &lt;code&gt;NullPointerException&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The out-of-the-box OpenJDK Java 17 distribution ships with an ARM and Apple M1-compatible port that is screamingly fast. It&amp;rsquo;s just a better distribution in every way. Thanks, Oracle and community! &lt;/p&gt;&lt;h2&gt;&lt;a href="#azure-spring-cloud" class="anchor" name="azure-spring-cloud"&gt;&lt;/a&gt;Azure Spring Cloud&lt;/h2&gt;
+&lt;p&gt;This platform-as-a-service offering jointly developed by the Spring team and Microsoft is growing like a weed, constantly being improved and hardened to do the work of delivering Spring Boot-applications to production as easily as can be. And 2021 was no different. This year saw the integration &lt;a href="https://spring.io/blog/2021/03/18/an-azure-spring-cloud-update-managed-virtual-network-and-autoscale-are-now-generally-available-in-azure-spring-cloud"&gt;of managed virtual networks and autoscale&lt;/a&gt;, &lt;a href="https://spring.io/blog/2021/01/21/bootiful-application-monitoring-with-azure-spring-cloud"&gt;improved monitoring&lt;/a&gt;, &lt;a href="https://spring.io/blog/2021/05/13/automate-spring-boot-application-deployments-to-azure"&gt;easy deployments&lt;/a&gt;, &lt;a href="https://spring.io/blog/2021/09/01/monitor-spring-boot-applications-end-to-end-using-dynatrace-in-azure-spring-cloud"&gt;Dynatrace integration&lt;/a&gt;, &lt;a href="https://spring.io/blog/2021/01/25/what-s-new-in-azure-spring-cloud-after-ga"&gt;outbound public IPs, a Visual Studio Code integration, and full APM capabilities&lt;/a&gt;, and so much more. There are, of course, tons &lt;a href="https://spring.io/blog/2021/03/11/deploy-spring-boot-applications-by-leveraging-enterprise-best-practices-azure-spring-cloud-reference-architecture"&gt;of references out there&lt;/a&gt;, too.&lt;/p&gt;&lt;h2&gt;&lt;a href="#the-client-side" class="anchor" name="the-client-side"&gt;&lt;/a&gt;The Client Side&lt;/h2&gt;
+&lt;p&gt;Spring provides unmatched protocols to complement client-side developers who want to talk to services, supporting things like WebSockets, &lt;a href="https://spring.io/blog/2021/10/27/spring-tips-controllers-pt-1-the-c-in-model-2-mvc"&gt;HTTP&lt;/a&gt;, &lt;a href="https://spring.io/blog/2021/11/03/spring-tips-controllers-give-http-a-rest"&gt;REST&lt;/a&gt;, &lt;a href="https://spring.io/guides/tutorials/spring-boot-oauth2/"&gt;OAuth&lt;/a&gt;, &lt;a href="https://www.youtube.com/watch?v=cEjU6-WOb3Q&amp;t=238s"&gt;RSocket&lt;/a&gt;, and &lt;a href="https://www.youtube.com/watch?v=kVSYVhmvNCI"&gt;GraphQL&lt;/a&gt;. But the opportunities for integration are getting better by the day. For example, I loved this recent post by the good Dr. Dave Syer introducing &lt;a href="https://spring.io/blog/2021/12/17/client-side-development-with-spring-boot-applications"&gt;some of the possibilities for integation&lt;/a&gt;. In this blog, the good Dr. looks at things like Webjars, HTMX, Hotwired, and more.&lt;/p&gt;&lt;h2&gt;&lt;a href="#buildpacks" class="anchor" name="buildpacks"&gt;&lt;/a&gt;Buildpacks&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://buildpacks.io"&gt;Buildpacks&lt;/a&gt; get better and better every day! Buildpacks are a CNCF specification that provide a way to take applications and containerize them. Don&amp;rsquo;t want to write a &lt;code&gt;Dockerfile&lt;/code&gt;? Me either! 90% of the time, they&amp;rsquo;re repetitive and add nothing to the world except wasteful redundancies. It&amp;rsquo;s not like nobody has figured out how to containerize a Java application before! So, buildpacks let you take an application artifact, be it a &lt;code&gt;.jar&lt;/code&gt;, or a &lt;code&gt;.war&lt;/code&gt;, or a .NET assembly or a Ruby on Rails application or a Node.js application or&amp;hellip; whatever!&amp;hellip; and turn it into a Docker image that you can then &lt;code&gt;docker tag&lt;/code&gt; and &lt;code&gt;docker push&lt;/code&gt; to the container registry of your choice. (May I recommend VMware Harbor?) Buildpacks do this using builders, of which there are a whole ecosystem&amp;rsquo;s worth to choose from. &lt;a href="https://paketo.io/"&gt;The Paketo project&lt;/a&gt; provides a ton of out-of-the-box builders. Buildpacks are fantastic in themselves, but I love that you can talk to the buildpacks API in different incarnations. Spring Boot provides out-of-the-box support for buldpacks through its Maven and Gradle plugins: &lt;code&gt;mvn spring-boot:build-image&lt;/code&gt;, and you&amp;rsquo;re off to the containerized races! If you don&amp;rsquo;t want to set that all up for every build pipeline, consider using &lt;a href="https://buildpacks.io/docs/tools/kpack/"&gt;KPack&lt;/a&gt;, a Kubernetes operator that runs in-cluster and applies builders to artifacts whenever it perceives an update. You don&amp;rsquo;t have to leak the security credentials for your cluster into your CI pipeline, and you don&amp;rsquo;t have to re-build that container publication pipeline for each new module. Life is better all around! There&amp;rsquo;s also a buildpack to build Spring Native-powered GraalVM images, too! Simply go to the &lt;a href="https://start.spring.io"&gt;Spring Initializr (start.spring.io)&lt;/a&gt; and build a new project with &lt;code&gt;Spring Native&lt;/code&gt; as a dependency. It&amp;rsquo;ll automatically retool the buildpacks support for native images.&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
   <entry>
     <title>A Bootiful Podcast: HBase and Cassandra cofounder and Yugabyte CTO Karthik Ranganathan</title>
     <link rel="alternate" href="https://spring.io/blog/2021/12/23/a-bootiful-podcast-hbase-and-cassandra-cofounder-and-yugabyte-cto-karthik-ranganathan" />
@@ -2807,74 +2927,6 @@ public class BookInput {&#xD;
 &lt;p&gt;More &lt;a href="https://github.com/spring-projects/spring-graphql/milestone/5?closed=1"&gt;improvements and fixes made their way into their release&lt;/a&gt; and they&amp;rsquo;re available right now in the new Spring GraphQL 1.0.0-M4 release from the Spring Milestone repository.&lt;/p&gt;&lt;h3&gt;&lt;a href="#how-can-you-help" class="anchor" name="how-can-you-help"&gt;&lt;/a&gt;How can you help?&lt;/h3&gt;
 &lt;p&gt;If you&amp;rsquo;re interested in helping out, you can &lt;a href="https://docs.spring.io/spring-graphql/docs/1.0.0-M4/reference/html/#boot-graphql"&gt;get started with Spring GraphQL&lt;/a&gt; and &lt;a href="https://github.com/spring-projects/spring-graphql/issues"&gt;raise issues on our GitHub project&lt;/a&gt;.&lt;br/&gt;If you have general questions, please ask on &lt;a href="https://stackoverflow.com"&gt;stackoverflow.com&lt;/a&gt; using the &lt;a href="https://stackoverflow.com/tags/spring-graphql"&gt;&lt;code&gt;spring-graphql&lt;/code&gt; tag&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://spring.io/projects/spring-graphql/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-graphql"&gt;GitHub&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-graphql/issues"&gt;Issues&lt;/a&gt; | &lt;a href="https://docs.spring.io/spring-graphql/docs/1.0.0-M4/reference/html/"&gt;Documentation&lt;/a&gt; | &lt;a href="https://stackoverflow.com/questions/tagged/spring-graphql"&gt;Stack Overflow&lt;/a&gt;&lt;/p&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Log4J2 Vulnerability and Spring Boot</title>
-    <link rel="alternate" href="https://spring.io/blog/2021/12/10/log4j2-vulnerability-and-spring-boot" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Phil Webb</name>
-    </author>
-    <id>tag:spring.io,2021-12-10:4639</id>
-    <updated>2021-12-10T20:00:00Z</updated>
-    <content type="html">&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;Updates&lt;/strong&gt;: Since this blog post has been published, a &lt;a href="https://logback.qos.ch/news.html"&gt;new logback 1.2.9 version has been published&lt;/a&gt;. While this fixes a security issue, prerequisites for exploits are very different as they &amp;ldquo;requires write access to logback&amp;rsquo;s configuration file&amp;rdquo;.&lt;br/&gt;Log4J also released a new 2.17.0 version with fixes for &lt;a href="https://nvd.nist.gov/vuln/detail/CVE-2021-45046"&gt;CVE-2021-45046&lt;/a&gt; and &lt;a href="https://nvd.nist.gov/vuln/detail/CVE-2021-45105"&gt;CVE-2021-45105&lt;/a&gt;&lt;br/&gt;Spring Boot &lt;code&gt;2.5.8&lt;/code&gt; and &lt;code&gt;2.6.2&lt;/code&gt; haven been released and provide dependency management for logback 1.2.9 and Log4J 2.17.0.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;As you may have seen in the news, a new zero-day exploit has been reported against the popular Log4J2 library which can allow an attacker to remotely execute code. The vulnerability has been reported with &lt;a href="https://nvd.nist.gov/vuln/detail/CVE-2021-44228"&gt;CVE-2021-44228&lt;/a&gt; against the &lt;code&gt;log4j-core&lt;/code&gt; jar and has been fixed in &lt;a href="https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/2.15.0/"&gt;Log4J v2.15.0&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Spring Boot users are only affected by this vulnerability if they have &lt;a href="https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.logging.log4j"&gt;switched the default logging system to Log4J2&lt;/a&gt;. The &lt;code&gt;log4j-to-slf4j&lt;/code&gt; and &lt;code&gt;log4j-api&lt;/code&gt; jars that we include in &lt;code&gt;spring-boot-starter-logging&lt;/code&gt; cannot be exploited on their own. Only applications using &lt;code&gt;log4j-core&lt;/code&gt; and including user input in log messages are vulnerable.&lt;/p&gt;
-&lt;p&gt;Our upcoming v2.5.8 &amp;amp; v2.6.2 releases (due Dec 23, 2021) will pick up Log4J v2.17.0, but since this is such a serious vulnerability you may want to override our dependency management and upgrade your Log4J2 dependency sooner.&lt;/p&gt;&lt;h2&gt;&lt;a href="#maven" class="anchor" name="maven"&gt;&lt;/a&gt;Maven&lt;/h2&gt;
-&lt;p&gt;For Maven users, you can follow &lt;a href="https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/#using"&gt;these instructions&lt;/a&gt; and the set the &lt;code&gt;log4j2.version&lt;/code&gt; property.&lt;/p&gt;
-&lt;p&gt;For example, if you are using our parent POM you can set the &lt;code&gt;log4j2.version&lt;/code&gt; property:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint xml"&gt;&amp;lt;properties&amp;gt;&#xD;
-    &amp;lt;log4j2.version&amp;gt;2.17.0&amp;lt;/log4j2.version&amp;gt;&#xD;
-&amp;lt;/properties&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;If you are not using our parent, but instead are importing the &lt;code&gt;spring-boot-dependencies&lt;/code&gt; BOM, you&amp;rsquo;ll need to use a &lt;code&gt;&amp;lt;dependencyManagement&amp;gt;&lt;/code&gt; section:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint xml"&gt;&amp;lt;dependencyManagement&amp;gt;&#xD;
-    &amp;lt;dependencies&amp;gt;&#xD;
-        &amp;lt;dependency&amp;gt;&#xD;
-            &amp;lt;groupId&amp;gt;org.apache.logging.log4j&amp;lt;/groupId&amp;gt;&#xD;
-            &amp;lt;artifactId&amp;gt;log4j-bom&amp;lt;/artifactId&amp;gt;&#xD;
-            &amp;lt;version&amp;gt;2.17.0&amp;lt;/version&amp;gt;&#xD;
-            &amp;lt;scope&amp;gt;import&amp;lt;/scope&amp;gt;&#xD;
-            &amp;lt;type&amp;gt;pom&amp;lt;/type&amp;gt;&#xD;
-        &amp;lt;/dependency&amp;gt;&#xD;
-        ... other dependencies including spring-boot-dependencies&#xD;
-    &amp;lt;/dependencies&amp;gt;&#xD;
-&amp;lt;/dependencyManagement&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;To check that the override as been applied run &lt;code&gt;./mvnw dependency:list | grep log4j&lt;/code&gt; and check that the version is 2.17.0.&lt;/p&gt;&lt;h2&gt;&lt;a href="#gradle" class="anchor" name="gradle"&gt;&lt;/a&gt;Gradle&lt;/h2&gt;
-&lt;p&gt;For Gradle users, you can follow &lt;a href="https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/#managing-dependencies.dependency-management-plugin.customizing"&gt;these instructions&lt;/a&gt; and update the version property, import the BOM or use a&lt;code&gt;resolutionStrategy&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;For most users, setting the &lt;code&gt;log4j2.version&lt;/code&gt; property will be sufficient:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint gradle"&gt;ext[&amp;#39;log4j2.version&amp;#39;] = &amp;#39;2.17.0&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;If you&amp;rsquo;re using Gradle&amp;rsquo;s platform support instead of our dependency management plugin then you can add a dependency to the Log4J BOM:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint gradle"&gt;implementation(platform(&amp;quot;org.apache.logging.log4j:log4j-bom:2.17.0&amp;quot;))
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;And if you can¡¯t use either of those methods then you can declare a &lt;code&gt;resolutionStrategy&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint gradle"&gt;configurations.all {&#xD;
-	resolutionStrategy.eachDependency { DependencyResolveDetails details -&amp;gt;&#xD;
-		if (details.requested.group == &amp;#39;org.apache.logging.log4j&amp;#39;) {&#xD;
-			details.useVersion &amp;#39;2.17.0&amp;#39;&#xD;
-		}&#xD;
-	}&#xD;
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Whichever method you choose, to check that the override has been applied you can run &lt;code&gt;./gradlew dependencyInsight --dependency log4j-core&lt;/code&gt; and look for version 2.17.0.&lt;/p&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>A Bootiful Podcast: Transformative leader, brilliant technologist, my friend, Patrick Chanezon</title>
-    <link rel="alternate" href="https://spring.io/blog/2021/12/09/a-bootiful-podcast-transformative-leader-brilliant-technologist-my-friend-patrick-chanezon" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Josh Long</name>
-    </author>
-    <id>tag:spring.io,2021-12-09:4638</id>
-    <updated>2021-12-09T20:00:00Z</updated>
-    <content type="html">&lt;p&gt;Hi, Spring fans! This week, &lt;a href="https://twitter.com/starbuxman"&gt;Josh Long (@starbuxman)&lt;/a&gt; talks to transformational leader, my old boss, legendary technologist, and friend &lt;a href="https://twitter.com/chanezon"&gt;Patrick Chanezon (@chanezon)&lt;/a&gt;.&lt;/p&gt;
-&lt;iframe title="Transformative leader, brilliant technologist, my friend, Patrick Chanezon" allowtransparency="true" height="150" width="100%" style="border: none; min-width: min(100%, 430px);" scrolling="no" data-name="pb-iframe-player" src="https://www.podbean.com/player-v2/?i=7s93i-115064e-pb&amp;from=pb6admin&amp;share=1&amp;download=1&amp;rtl=0&amp;fonts=Arial&amp;skin=1&amp;font-color=&amp;btn-skin=7"&gt;&lt;/iframe&gt;
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
   </entry>
 </feed>
