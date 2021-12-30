@@ -36,6 +36,15 @@
 		where
 			username = #{username};
 	</select>
+	<select id="getUserDtlById" resultType="com.springboot.instagram.domain.user.UserDtl" parameterType="Integer">
+		select
+			*
+		from
+			user_dtl
+		where
+			id = #{id};
+	
+	</select>
 </mapper>
 
 

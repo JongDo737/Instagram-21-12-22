@@ -2,6 +2,7 @@ package com.springboot.instagram.web.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.springboot.instagram.config.auth.PrincipalDetails;
@@ -10,12 +11,9 @@ import com.springboot.instagram.config.auth.PrincipalDetails;
 public class PageController {
 	
 	@GetMapping({"/", "/index"})
-	public String indexForm(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-		System.out.println(principalDetails.getUser());
-		System.out.println(principalDetails.getUser().getId());
-		return "test";
+	public String indexForm() {
+		return "index";
 	}
-	
 	@GetMapping("/auth/signin")
 	public String siginForm() {
 		return "auth/signin";
@@ -27,9 +25,8 @@ public class PageController {
 	}
 	
 	@GetMapping("/accounts/edit")
-	public String accountEditForm(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-		//계정 정보들이 들어가있음
-		return "account/accounts_edit";
+	public String accountEditForm() {
+		return "accounts/accounts_edit";
 	}
 	
 }

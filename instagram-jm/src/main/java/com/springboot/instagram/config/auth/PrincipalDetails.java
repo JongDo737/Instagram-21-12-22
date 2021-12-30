@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.springboot.instagram.domain.user.User;
+import com.springboot.instagram.domain.user.UserDtl;
 
 import lombok.Data;
 
@@ -16,9 +17,13 @@ public class PrincipalDetails implements UserDetails{
 	private static final long serialVersionUID = 1L;
 
 	private User user;
+	private UserDtl userDtl;
 	
-	public PrincipalDetails(User user) {
+
+	
+	public PrincipalDetails(User user, UserDtl userDtl) {
 		this.user = user;
+		this.userDtl = userDtl;
 	}
 	
 	@Override  // 권한 가져다 쓸때 (시큐리티가)

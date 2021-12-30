@@ -16,36 +16,11 @@
 
 <body>
     <section>
-        <nav class="nav-bar">
-            <div class="nav-main">
-                <div class="nav-logo">
-                    <img src="/images/instagram_logo.png" alt="">
-                </div>
-                <div class="nav-search">
-                    <div class="nav-search-border">
-                        <i class="fas fa-search"></i>
-                        <input type="text" class="nav-search-ip" placeholder="검색">
-                    </div>
-                </div>
-                <div class="nav-items">
-                    <div>
-                        <i class="fas fa-home" id="nav-home-icon"></i>
-                    </div>
-                    <div>
-                        <i class="far fa-plus-square" id="nav-plus-icon"></i>
-                    </div>
-                    <div>
-                        <div class="nav-items-profile">
-                            <img src="/images/signin_title.JPG" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <jsp:include page="./include/nav.jsp"></jsp:include>
         <main>
             <div>
                 <ul>
-                    <li></li>
+                    <li>index</li>
                 </ul>
                 <article>
 

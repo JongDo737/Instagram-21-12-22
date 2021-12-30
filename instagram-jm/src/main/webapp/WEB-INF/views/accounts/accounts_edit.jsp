@@ -1,7 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<!-- 인증이 되었을때 principal 변수명으로 프린시펄 데이터를 들고오는거임 -->
+<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="principal" var="principal"/>
+	
+</sec:authorize>
 <!DOCTYPE html>
 <html lang="ko">
+
 
 <head>
     <meta charset="UTF-8">
@@ -9,42 +17,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" href="/css/accounts_menu.css">
     <link rel="stylesheet" href="/css/accounts_edit.css">
     <script src="https://kit.fontawesome.com/fab8e6b94b.js" crossorigin="anqonymous"></script>
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 </head>
 
 <body>
     <section>
-        <nav class="nav-bar">
-            <div class="nav-main">
-                <div class="nav-logo">
-                    <a href="#">
-                        <img src="/images/instagram_logo.PNG">
-                    </a>
-                </div>
-                <div class="nav-search">
-                    <div class="nav-search-border">
-                        <i class="fas fa-search"></i>
-                        <input type="text" class="nav-search-ip" placeholder="검색">
-                    </div>
-                </div>
-                <div class="nav-items">
-                    <div class="nav-item">
-                        <i class="fas fa-home" id="nav-home-icon"></i>
-                    </div>
-                    <div class="nav-item">
-                        <i class="far fa-plus-square" id="nav-plus-icon"></i>
-                    </div>
-                    <div class="nav-item">
-                        <div class="nav-items-profile">
-                            <img src="/images/signin_title.JPG">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
+    	<jsp:include page="../include/nav.jsp"></jsp:include> 
         <main>
             <div class="container">
                 <ul class="menu-list">
@@ -58,20 +40,22 @@
                 <article>
                     <div class="edit-profile-img">
                         <div class="edit-profile-img-border">
-                            <img src="/images/signin_title.JPG">
+                            <img id="profile_img" src="/image/${principal.userDtl.profile_img }">
                         </div>
                         <div class="username-lb">
-                            <h1>jongmin</h1>
+                            <h1>${principal.user.username }</h1>
+                            
                             <div class="profile-img-change-btn">프로필 사진 바꾸기</div>
                         </div>
                     </div>
-                    <form action="">
+                    <form enctype="multipart/form-data">
+                    	<input type="file" id="file" name="file" >
                         <div class="edit-items">
                             <aside>
                                 <label for="name-ip" class="edit-lb">이름</label>
                             </aside>
                             <div class="edit-ip">
-                                <input type="text" id="name-ip" name="name">
+                                <input type="text" id="name-ip" name="name" value="${principal.user.name }">
                             </div>
                         </div>
                         <div class="edit-items">
@@ -79,7 +63,7 @@
                                 <label for="username-ip" class="edit-lb">사용자 이름</label>
                             </aside>
                             <div class="edit-ip">
-                                <input type="text" id="username-ip" class="edit-ip" name="username">
+                                <input type="text" id="username-ip" class="edit-ip" name="username" value="${principal.user.username }">
                             </div>
                         </div>
                         <div class="edit-items">
@@ -87,7 +71,7 @@
                                 <label for="website-ip" class="edit-lb">웹사이트</label>
                             </aside>
                             <div class="edit-ip">
-                                <input type="text" id="website-ip" class="edit-ip" name="website">
+                                <input type="text" id="website-ip" class="edit-ip" name="website" value="${principal.userDtl.website }">
                             </div>
                         </div>
                         <div class="edit-items">
@@ -95,7 +79,7 @@
                                 <label for="introduction-ip" class="edit-lb">소개</label>
                             </aside>
                             <div class="edit-ip">
-                                <textarea id="introduction-ip" class="edit-ip" name="introduction"></textarea>
+                                <textarea id="introduction-ip" class="edit-ip" name="introduction">${principal.userDtl.introduction }</textarea>
                             </div>
                         </div>
                         <div class="edit-items">
@@ -103,7 +87,7 @@
                                 <label for="email-ip" class="edit-lb">이메일</label>
                             </aside>
                             <div class="edit-ip">
-                                <input type="text" id="email-ip" class="edit-ip" name="email">
+                                <input type="text" id="email-ip" class="edit-ip" name="email" value= "${principal.user.email }">
                             </div>
                         </div>
                         <div class="edit-items">
@@ -111,7 +95,7 @@
                                 <label for="phone-ip" class="edit-lb">전화번호</label>
                             </aside>
                             <div class="edit-ip">
-                                <input type="text" id="phone-ip" class="edit-ip" name="phone">
+                                <input type="text" id="phone-ip" class="edit-ip" name="phone" value="${principal.userDtl.phone }">
                             </div>
                         </div>
                         <div class="edit-items">
@@ -119,12 +103,12 @@
                                 <label for="gender-ip" class="edit-lb">성별</label>
                             </aside>
                             <div class="edit-ip">
-                                <input type="text" list="gender-ip" name="gender">
+                                <input type="text" list="gender-ip" name="gender" value="${principal.userDtl.gender }">
                                 <datalist id="gender-ip">
-                                    <option value="1">남성</option>
-                                    <option value="2">여성</option>
-                                    <option value="3">맞춤성별</option>
-                                    <option value="4">밝히고 싶지 않음</option>
+                                    <option value="남성"></option>
+                                    <option value="여성"></option>
+                                    <option value="맞춤성별"></option>
+                                    <option value="밝히고 싶지 않음"></option>
                                 </datalist>
                             </div>
                         </div>
@@ -142,6 +126,7 @@
             </div>
         </main>
     </section>
+    <script src="/js/accounts_edit.js"></script>
 </body>
 
 </html>
