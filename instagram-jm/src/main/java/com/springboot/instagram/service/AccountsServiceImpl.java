@@ -38,7 +38,18 @@ public class AccountsServiceImpl implements AccountsService{
 			return false;
 		}
 	}
-
+	
+	public void deleteProfileImgFile(PrincipalDetails principalDetails) {
+		String imgUrl = principalDetails.getUserDtl().getProfile_img();
+		if(!imgUrl.equals("profile_img\\default.png")) {
+			File file = new File(imgUrl);
+			if(file.exists()) { //해당 경로에 파일이 존재할떄
+				file.delete();
+				
+			}
+		}
+	}
+	
 	@Override
 	public boolean updateUser(PrincipalDetails principalDetails, ProfileReqDto profileReqDto) {
 		int id = principalDetails.getUser().getId();
@@ -68,6 +79,8 @@ public class AccountsServiceImpl implements AccountsService{
 			}
 			
 			profile_img = "profile_img\\" + imageFileName;
+			
+			deleteProfileImgFile(principalDetails);
 		}
 		
 		userDtlEntity = profileReqDto.toUserDtlEntity(id, profile_img);

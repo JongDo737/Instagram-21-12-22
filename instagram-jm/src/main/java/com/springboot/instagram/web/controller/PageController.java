@@ -29,4 +29,9 @@ public class PageController {
 		return "accounts/accounts_edit";
 	}
 	
+	@GetMapping("/accounts/password/change")
+	public String accountPasswordForm() {
+		return "accounts/accounts_password";
+	}
+	
 }

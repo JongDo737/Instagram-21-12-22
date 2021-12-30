@@ -26,10 +26,10 @@
             <div class="container">
                 <ul class="menu-list">
                     <li class="menu-li">
-                        <a href="#" class="menu-li-a-select">프로필 편집</a>
+                        <a href="/accounts/edit" class="menu-li-a-select">프로필 편집</a>
                     </li>
                     <li class="menu-li">
-                        <a href="#" class="menu-li-a">비밀번호 변경</a>
+                        <a href="/accounts/password/change" class="menu-li-a">비밀번호 변경</a>
                     </li>
                 </ul>
                 <article>
