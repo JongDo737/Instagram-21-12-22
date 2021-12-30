@@ -19,26 +19,24 @@ public class ProfileReqDto {
 	
 	private MultipartFile file;
 	
-	//toentity 두개를 만들어줌
-	
-	//user_mst
-	public User toUserEntity() {
+	public User toUserEntity(int id, String password) {
 		return User.builder()
+				.id(id)
+				.password(password)
 				.email(email)
 				.name(name)
 				.username(username)
 				.build();
 	}
 	
-	//user_dtl
-	public UserDtl toUserDtlEntity() {
+	public UserDtl toUserDtlEntity(int id, String profile_img) {
 		return UserDtl.builder()
+				.id(id)
 				.website(website)
 				.introduction(introduction)
 				.phone(phone)
 				.gender(gender)
+				.profile_img(profile_img)
 				.build();
-				
 	}
-	
 }

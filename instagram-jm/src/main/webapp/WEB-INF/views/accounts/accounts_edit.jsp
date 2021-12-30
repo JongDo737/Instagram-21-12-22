@@ -2,31 +2,26 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<!-- 인증이 되었을때 principal 변수명으로 프린시펄 데이터를 들고오는거임 -->
 <sec:authorize access="isAuthenticated()">
 	<sec:authentication property="principal" var="principal"/>
-	
 </sec:authorize>
+
 <!DOCTYPE html>
 <html lang="ko">
-
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram</title>
-    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/accounts_menu.css">
     <link rel="stylesheet" href="/css/accounts_edit.css">
-    <script src="https://kit.fontawesome.com/fab8e6b94b.js" crossorigin="anqonymous"></script>
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 
 <body>
     <section>
-    	<jsp:include page="../include/nav.jsp"></jsp:include> 
+        <jsp:include page="../include/nav.jsp"></jsp:include>
         <main>
             <div class="container">
                 <ul class="menu-list">
@@ -40,22 +35,21 @@
                 <article>
                     <div class="edit-profile-img">
                         <div class="edit-profile-img-border">
-                            <img id="profile_img" src="/image/${principal.userDtl.profile_img }">
+                            <img id="profile-img" src="/image/${principal.userDtl.profile_img }">
                         </div>
                         <div class="username-lb">
-                            <h1>${principal.user.username }</h1>
-                            
+                            <h1 id="principal-username">${principal.user.username }</h1>
                             <div class="profile-img-change-btn">프로필 사진 바꾸기</div>
                         </div>
                     </div>
                     <form enctype="multipart/form-data">
-                    	<input type="file" id="file" name="file" >
+                    	<input type="file" id="file" name="file">
                         <div class="edit-items">
                             <aside>
                                 <label for="name-ip" class="edit-lb">이름</label>
                             </aside>
                             <div class="edit-ip">
-                                <input type="text" id="name-ip" name="name" value="${principal.user.name }">
+                                <input type="text" id="name-ip" class="profile-ip" name="name" value="${principal.user.name }">
                             </div>
                         </div>
                         <div class="edit-items">
@@ -63,7 +57,7 @@
                                 <label for="username-ip" class="edit-lb">사용자 이름</label>
                             </aside>
                             <div class="edit-ip">
-                                <input type="text" id="username-ip" class="edit-ip" name="username" value="${principal.user.username }">
+                                <input type="text" id="username-ip" class="profile-ip" name="username" value="${principal.user.username }">
                             </div>
                         </div>
                         <div class="edit-items">
@@ -71,7 +65,7 @@
                                 <label for="website-ip" class="edit-lb">웹사이트</label>
                             </aside>
                             <div class="edit-ip">
-                                <input type="text" id="website-ip" class="edit-ip" name="website" value="${principal.userDtl.website }">
+                                <input type="text" id="website-ip" class="profile-ip" name="website" value="${principal.userDtl.website }">
                             </div>
                         </div>
                         <div class="edit-items">
@@ -79,7 +73,7 @@
                                 <label for="introduction-ip" class="edit-lb">소개</label>
                             </aside>
                             <div class="edit-ip">
-                                <textarea id="introduction-ip" class="edit-ip" name="introduction">${principal.userDtl.introduction }</textarea>
+                                <textarea id="introduction-ip" class="profile-ip" name="introduction">${principal.userDtl.introduction }</textarea>
                             </div>
                         </div>
                         <div class="edit-items">
@@ -87,7 +81,7 @@
                                 <label for="email-ip" class="edit-lb">이메일</label>
                             </aside>
                             <div class="edit-ip">
-                                <input type="text" id="email-ip" class="edit-ip" name="email" value= "${principal.user.email }">
+                                <input type="text" id="email-ip" class="profile-ip" name="email" value="${principal.user.email }">
                             </div>
                         </div>
                         <div class="edit-items">
@@ -95,7 +89,7 @@
                                 <label for="phone-ip" class="edit-lb">전화번호</label>
                             </aside>
                             <div class="edit-ip">
-                                <input type="text" id="phone-ip" class="edit-ip" name="phone" value="${principal.userDtl.phone }">
+                                <input type="text" id="phone-ip" class="profile-ip" name="phone"  value="${principal.userDtl.phone }">
                             </div>
                         </div>
                         <div class="edit-items">
@@ -103,7 +97,7 @@
                                 <label for="gender-ip" class="edit-lb">성별</label>
                             </aside>
                             <div class="edit-ip">
-                                <input type="text" list="gender-ip" name="gender" value="${principal.userDtl.gender }">
+                                <input type="text" list="gender-ip" class="profile-ip" name="gender"  value="${principal.userDtl.gender }">
                                 <datalist id="gender-ip">
                                     <option value="남성"></option>
                                     <option value="여성"></option>
@@ -119,8 +113,6 @@
                                 <button type="button" class="edit-submit-btn">제출</button>
                             </div>
                         </div>
-
-
                     </form>
                 </article>
             </div>
