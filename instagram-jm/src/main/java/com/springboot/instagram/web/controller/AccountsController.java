@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.instagram.config.auth.PrincipalDetails;
 import com.springboot.instagram.service.AccountsService;
+import com.springboot.instagram.web.dto.accounts.PasswordReqDto;
 import com.springboot.instagram.web.dto.accounts.ProfileReqDto;
 
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,10 @@ public class AccountsController {
 		return accountsService.updateUser(principalDetails, profileReqDto);
 	}
 	
+	@PutMapping("/accounts/password/change")
+	public Object passwordChange(@AuthenticationPrincipal PrincipalDetails principalDetails, PasswordReqDto passwordReqDto) {
+		
+		return accountsService.updatePassword(principalDetails, passwordReqDto);
+	}
 	
 }

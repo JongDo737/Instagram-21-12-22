@@ -12,4 +12,5 @@ public interface UserRepository {
 	//accounts
 	public int updateUserById(User user);
 	public int updateUserDtlById(UserDtl userDtl);
+	public int updatePasswordById(User user);
 }

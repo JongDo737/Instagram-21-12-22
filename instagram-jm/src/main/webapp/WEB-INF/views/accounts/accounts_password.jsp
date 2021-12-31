@@ -14,10 +14,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" href="/css/accounts_menu.css">
     <link rel="stylesheet" href="/css/accounts_password.css">
-    <script src="https://kit.fontawesome.com/fab8e6b94b.js" crossorigin="anqonymous"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 </head>
 
 <body>
