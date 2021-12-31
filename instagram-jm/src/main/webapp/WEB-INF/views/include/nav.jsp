@@ -32,7 +32,9 @@
                         <i class="fas fa-home" id="nav-home-icon"></i>
                     </div>
                     <div class="nav-item">
-                        <i class="far fa-plus-square" id="nav-plus-icon"></i>
+                    	<a href="/upload">
+                        	<i class="far fa-plus-square" id="nav-plus-icon"></i>
+                    	</a>
                     </div>
                     <div class="nav-item">
                     	<a href="/accounts/edit">
