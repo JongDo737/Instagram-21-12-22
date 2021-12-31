@@ -11,7 +11,7 @@
 			0,
 			#{board_img},
 			#{board_content},
-			#{userId},
+			#{user_id},
 			now(),
 			now()
 		);

@@ -56,8 +56,11 @@ function uploadSubmit(){
 		enctype: "multipart/form-data", // 이거
 		processData: false,				// 이거
 		contentType: false,				// 이게 세가지 해줘야 폼데이터 넘김
-		success: function(data){
-			
+		success: function(data){ // true or false
+			if(data == 'true'){
+				alert('게시글 작성 완료');
+				location.replace("/");
+			}
 		},
 		error: function(){
 			alert('비동기 처리 오류.');

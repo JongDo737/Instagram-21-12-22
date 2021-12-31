@@ -11,8 +11,9 @@ public class BoardReqDto {
 	private MultipartFile file;
 	private String boardContent;
 	
-	public Board toEntity(int userId) {		
+	public Board toEntity(int userId, String boardImg) {		
 		return Board.builder()
+				.board_img(boardImg)
 				.board_content(boardContent)
 				.user_id(userId)
 				.build();
