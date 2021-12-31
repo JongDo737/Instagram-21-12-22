@@ -75,7 +75,6 @@
                         </div>
                     </div>
 
-
                 </article>
             </div>
         </main>

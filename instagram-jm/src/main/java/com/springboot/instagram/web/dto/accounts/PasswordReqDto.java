@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class PasswordReqDto {
 	
+	//ajax에서 날린 데이터 값이 담김
 	private String prePassword;
 	private String newPassword;
 
