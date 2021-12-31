@@ -7099,3 +7099,15 @@ Caused by: java.lang.NoSuchMethodException: org.springframework.context.annotati
 
 !ENTRY org.eclipse.lsp4e 1 0 2021-12-31 11:50:46.208
 !MESSAGE [Info]	ESLint server running in node v14.15.4
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2021-12-31 12:28:24.715
+!MESSAGE ClasspathListenerHandler removeClasspathListener sts4.classpath.OHPMhPwE
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2021-12-31 12:28:24.716
+!MESSAGE unsubscribing from classpath changes: sts4.classpath.OHPMhPwE
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2021-12-31 12:28:24.717
+!MESSAGE subsribers = {}
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2021-12-31 12:28:24.718
+!MESSAGE ClasspathListenerHandler removeClasspathListener sts4.classpath.OHPMhPwE => OK

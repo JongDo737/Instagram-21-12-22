@@ -36,9 +36,9 @@
 }
  
  passwordSubmitBtn.onclick = () => {
-	passwordSubmit();
 	if(newPasswordInput.value != newRePasswordInput.value){
 		alert('새 비밀번호가 일치하지 않습니다.');
 		return;
 	}
+	passwordSubmit();
 }

@@ -35,7 +35,6 @@
     <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
     <fullyQualifiedTypeName name="org.springframework.security.core.annotation.AuthenticationPrincipal"/>
     <fullyQualifiedTypeName name="com.springboot.instagram.config.auth.PrincipalDetails"/>
-    <fullyQualifiedTypeName name="lombok.Data"/>
     <fullyQualifiedTypeName name="org.springframework.web.multipart.MultipartFile"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestAttribute"/>
@@ -50,7 +49,9 @@
     <fullyQualifiedTypeName name="java.nio.file.Path"/>
     <fullyQualifiedTypeName name="java.io.File"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PutMapping"/>
-    <fullyQualifiedTypeName name="com.springboot.instagram.domain.user.User"/>
-    <fullyQualifiedTypeName name="com.springboot.instagram.web.dto.accounts.PasswordRespDto"/>
     <fullyQualifiedTypeName name="com.springboot.instagram.web.dto.accounts.PasswordReqDto"/>
+    <fullyQualifiedTypeName name="com.springboot.instagram.web.dto.accounts.PasswordRespDto"/>
+    <fullyQualifiedTypeName name="lombok.Data"/>
+    <fullyQualifiedTypeName name="com.springboot.instagram.domain.user.User"/>
+    <fullyQualifiedTypeName name="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 </qualifiedTypeNameHistroy>
