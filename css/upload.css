@@ -1,0 +1,134 @@
+.container {
+    display: flex;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: white;
+}
+
+.img-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-right: 1px solid #dbdbdb;
+
+    width: 600px;
+    height: 600px;
+}
+
+.img-preview {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+    height: 600px;
+    overflow: hidden;
+}
+
+.upload-img {
+    max-width: 600px;
+}
+#img-delete-btn{
+    position: absolute;
+    top:10px;
+    right: 10px;
+    font-size: 2em;
+    color: rgba(41, 41, 41, 0.5);
+    cursor: pointer;
+}
+#img-delete-btn:hover{
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.img-add {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#add-icon {
+    font-size: 5em;
+}
+
+.img-add p {
+    padding: 10px 0px;
+    font-size: 1.8em;
+    font-weight: 100;
+}
+
+.add-img-btn {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    background-color: #0095f6;
+    color: white;
+    cursor: pointer;
+}
+
+.img-article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 10px;
+    width: 335px;
+    height: 600px;
+}
+.profile-info {
+    display: flex;
+    width: 100%;
+}
+.profile-img-border {
+    margin: 0px 5px;
+    border: 0px;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 30px;
+    height: 30px;
+}
+
+.profile-img-border img {
+    max-width: 38px;
+}
+
+.username-lb {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    margin: 0px 10px;
+    padding: 0px 0px 3px;
+}
+
+.username-lb h1 {
+    font-size: 1.1em;
+    font-weight: 500;
+    color: #666666;
+}
+.upload-content-border{
+    margin: 10px 0px 0px;
+    border-top: 1px solid #dbdbdb;
+    border-bottom: 1px solid #dbdbdb;
+}
+.upload-context{
+    margin: 4px 0px 0px;
+    width: 315px;
+    height: 480px;
+    padding: 10px;
+    max-height: auto;
+    border: none;
+    outline: none;
+    resize: none;
+}
+.upload-submit-btn{
+    padding: 10px;
+    font-size: 1.1em;
+    font-weight: 700;
+    color: #0095f6;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+.upload-submit-btn:hover{
+    color: #0094f6bd;
+}
