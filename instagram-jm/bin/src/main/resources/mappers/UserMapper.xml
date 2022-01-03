@@ -36,6 +36,53 @@
 		where
 			username = #{username};
 	</select>
+	
+	<select id="getUserDtlById" resultType="com.springboot.instagram.domain.user.UserDtl" parameterType="Integer">
+		select
+			*
+		from
+			user_dtl
+		where
+			id = #{id};
+	</select>
+	
+	<update id="updateUserById" parameterType="com.springboot.instagram.domain.user.User">
+		update
+			user_mst
+		set
+			email = #{email},
+			name = #{name},
+			username = #{username},
+			
+			update_date = now()
+		where
+			id = #{id};
+	</update>
+	
+	<update id="updateUserDtlById" parameterType="com.springboot.instagram.domain.user.UserDtl">
+		update
+			user_dtl
+		set
+			website = #{website},
+			introduction = #{introduction},
+			phone = #{phone},
+			gender = #{gender},
+			profile_img = #{profile_img},
+			
+			update_date = now()
+		where
+			id = #{id};
+	</update>
+	<update id="updatePasswordById"  parameterType="com.springboot.instagram.domain.user.User" >
+		update
+			user_mst
+		set
+			password = #{password},
+			update_date = now()
+		where
+			id = #{id};
+	
+	</update>
 </mapper>
 
 

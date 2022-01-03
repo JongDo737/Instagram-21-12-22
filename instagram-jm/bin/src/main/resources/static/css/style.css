@@ -1,24 +1,23 @@
-/* -- 전체 설정 -- */
+/*
+    전체 설정
 
+*/
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
-
 * {
     margin: 0;
     padding: 0;
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
-    letter-spacing: 0.4px;
+    font-size: 16px;
     box-sizing: border-box;
-}
+    letter-spacing: 0.4px;
 
-body {
+}
+body{
     background-color: #fafafa;
 }
-
-a {
+a{
     color: black;
     text-decoration: none;
-<<<<<<< HEAD:css/style.css
 }
 ul{
     list-style: none;
@@ -28,6 +27,3 @@ ul{
     width: 935px;
     margin: 30px auto 0px;
 }
-=======
-}
->>>>>>> c3a8157ff8161998b45623475581995d80eaaea6:instagram-jm/bin/src/main/resources/static/css/style.css
