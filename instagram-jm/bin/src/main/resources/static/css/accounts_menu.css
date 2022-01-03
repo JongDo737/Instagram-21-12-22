@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: white;
+}
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 1px solid #dbdbdb;
+    width: 237px;
+}
+.menu-li-a-select {
+    display: block;
+    border-left: 2px solid black;
+    padding: 16px 16px 16px 30px;
+    width: 236px;
+    height: 52px;
+    font-weight: 500;
+}
+
+.menu-li-a {
+    display: block;
+    padding: 16px 16px 16px 30px;
+    width: 236px;
+    height: 52px;
+    font-weight: 300;
+}
+
+.menu-li-a:hover {
+    border-left: 2px solid #dbdbdb;
+    background-color: #fafafa;
+}

@@ -1,0 +1,118 @@
+main {
+    display: flex;
+    justify-content: center;
+}
+.su-items {
+    margin: 12px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 350px;
+    height: 704px;
+}
+
+.su-items-ip {
+    border: 1px solid #dbdbdb;
+    background-color: white;
+    margin: 0px 0px 10px;
+    padding: 10px 0px;
+}
+
+.su-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 85px;
+}
+
+.su-login-form {
+    width: 350px;
+}
+.su-item {
+    display: flex;
+    justify-content: center;
+}
+
+.su-input {
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+    outline: none;
+    margin: 0px 0px 6px;
+    padding: 9px 8px 7px;
+    width: 266px;
+    height: 36px;
+    font-size: 12px;
+    background-color: #fafafa;
+}
+
+.su-input::placeholder {
+    color: rgb(142, 142, 142);
+    font-weight: 300;
+}
+
+.su-submit-btn {
+    border: 0px;
+    border-radius: 4px;
+
+    width: 266px;
+    height: 30px;
+    margin: 6px 0px;
+
+    background-color: #0095f6;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.hr-sect {
+    margin: 10px 40px 18px;
+    height: 15px;
+    display: flex;
+    flex-basis: 100%;
+    align-items: center;
+    color: #dbdbdb;
+}
+
+.hr-sect::before,
+.hr-sect::after {
+    content: "";
+    flex-grow: 1;
+    background: #dbdbdb;
+    height: 1px;
+    font-size: 0px;
+    line-height: 0px;
+}
+
+.hr-sect span {
+    margin: 0px 15px;
+    color: #8e8e8e;
+}
+
+.su-signin {
+    display: flex;
+    justify-content: center;
+    border: 1px solid #dbdbdb;
+    background-color: white;
+    margin: 0px 0px 10px;
+    padding: 10px 0px;
+    width: 350px;
+}
+
+.su-signin-text {
+    margin: 15px 0px;
+}
+
+.su-signin-text a {
+    color: #0095f6;
+    font-weight: 500;
+}
+
+.su-download-text {
+    margin: 10px 0px;
+    font-weight: 300;
+}
+
+.su-download-btns {
+    margin: 10px 0px;
+}

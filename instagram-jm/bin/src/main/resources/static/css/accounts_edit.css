@@ -1,0 +1,78 @@
+.edit-profile-img {
+    display: flex;
+    margin: 32px 0px 0px;
+}
+.edit-profile-img-border {
+    margin: 2px 32px 0px 124px;
+    border: 0px;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 38px;
+    height: 38px;
+}
+
+.edit-profile-img-border img {
+    max-width: 38px;
+}
+
+.edit-profile-img .username-lb {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-profile-img .username-lb h1 {
+    font-size: 1.2em;
+    font-weight: 400;
+}
+
+.profile-img-change-btn {
+    color: #0095f6;
+    font-weight: 500;
+    cursor: pointer;
+}
+form{
+    margin: 16px 0px 0px;
+}
+.edit-items{
+    display: flex;
+    margin: 0px 0px 16px;
+}
+.edit-items aside{
+    display: flex;
+    justify-content: end;
+    margin: 6px 0px 0px;
+    padding: 0px 32px;
+    width: 180px;
+}
+.edit-lb{
+    font-size: 16px;
+    font-weight: 500;
+}
+.edit-ip{
+    padding: 0px 147px 0px 0px;
+}
+.edit-ip input{
+    padding: 0px 10px;
+    width: 335px;
+    height: 32px;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+
+}
+.edit-ip textarea{
+    padding: 5px 10px;
+    min-width: 335px;
+    max-width: 335px;
+    height: 80px;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+
+}
+.edit-submit-btn{
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #0095f6;
+    color: white;
+    cursor: pointer;
+}
