@@ -1,6 +1,7 @@
 main {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 .su-items {
     margin: 12px 0px 0px;
@@ -87,6 +88,13 @@ main {
 .hr-sect span {
     margin: 0px 15px;
     color: #8e8e8e;
+}
+
+.su-facebook {
+    margin: 8px 40px;
+    height: 20px;
+    color: rgb(56, 81, 133);
+    font-weight: 500;
 }
 
 .su-signin {

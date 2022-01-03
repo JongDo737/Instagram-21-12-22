@@ -18,4 +18,16 @@ body {
 a {
     color: black;
     text-decoration: none;
+<<<<<<< HEAD:css/style.css
 }
+ul{
+    list-style: none;
+
+}
+.container{
+    width: 935px;
+    margin: 30px auto 0px;
+}
+=======
+}
+>>>>>>> c3a8157ff8161998b45623475581995d80eaaea6:instagram-jm/bin/src/main/resources/static/css/style.css
