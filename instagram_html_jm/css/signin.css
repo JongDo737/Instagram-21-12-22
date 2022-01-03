@@ -1,0 +1,143 @@
+article {
+    margin: 32px auto 0px;
+    padding: 0px 0px 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 935px;
+}
+
+.si-title-img {
+    display: flex;
+    align-items: center;
+    margin: 0px 20px 0px 0px;
+}
+
+.si-items {
+    margin: 12px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 350px;
+    height: 704px;
+}
+
+.si-items-ip {
+    border: 1px solid #dbdbdb;
+    background-color: white;
+    margin: 0px 0px 10px;
+    padding: 10px 0px;
+}
+
+.si-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 85px;
+}
+
+.si-login-form {
+    width: 350px;
+}
+.si-item {
+    display: flex;
+    justify-content: center;
+}
+
+.si-input {
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+    outline: none;
+    margin: 0px 0px 6px;
+    padding: 9px 8px 7px;
+    width: 266px;
+    height: 36px;
+    font-size: 12px;
+    background-color: #fafafa;
+}
+
+.si-input::placeholder {
+    color: rgb(142, 142, 142);
+    font-weight: 300;
+}
+
+.si-submit-btn {
+    border: 0px;
+    border-radius: 4px;
+
+    width: 266px;
+    height: 30px;
+    margin: 6px 0px;
+
+    background-color: #0095f6;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.hr-sect {
+    margin: 10px 40px 18px;
+    height: 15px;
+    display: flex;
+    flex-basis: 100%;
+    align-items: center;
+    color: #dbdbdb;
+}
+
+.hr-sect::before,
+.hr-sect::after {
+    content: "";
+    flex-grow: 1;
+    background: #dbdbdb;
+    height: 1px;
+    font-size: 0px;
+    line-height: 0px;
+}
+
+.hr-sect span {
+    margin: 0px 15px;
+    color: #8e8e8e;
+}
+
+.si-facebook {
+    margin: 8px 40px;
+    height: 20px;
+    color: rgb(56, 81, 133);
+    font-weight: 500;
+}
+
+.si-find-password {
+    margin: 12px 0px 0px;
+    color: rgb(0, 55, 107);
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.si-signup {
+    display: flex;
+    justify-content: center;
+    border: 1px solid #dbdbdb;
+    background-color: white;
+    margin: 0px 0px 10px;
+    padding: 10px 0px;
+    width: 350px;
+}
+
+.si-signup-text {
+    margin: 15px 0px;
+}
+
+.si-signup-text a {
+    color: #0095f6;
+    font-weight: 500;
+}
+
+.si-download-text {
+    margin: 10px 0px;
+    font-weight: 300;
+}
+
+.si-download-btns {
+    margin: 10px 0px;
+}

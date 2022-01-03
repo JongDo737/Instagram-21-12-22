@@ -5,10 +5,6 @@
 const signupInputs = document.querySelectorAll('.su-input');
 const submitBtns = document.querySelectorAll('.su-submit-btn');
 
-document.onload = () => {
-	
-}
-
 function isEmpty(str){
 	if(typeof str == "undefined" || str == null || str == ''){
 		return '사용가능';
