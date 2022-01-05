@@ -19,7 +19,6 @@
 		);
 	</insert>
 	<select id="getProfileBoardListByUsername" resultType="com.springboot.instagram.domain.board.ProfileBoard" parameterType="String">
-
 		SELECT
 			bm.id,
 			bm.board_img,

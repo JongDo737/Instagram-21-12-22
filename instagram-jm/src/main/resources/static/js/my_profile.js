@@ -1,98 +1,100 @@
 const body = document.querySelector('body');
 const modalContainer = document.querySelector('.modal-container');
 const modalBtns = modalContainer.querySelectorAll('button');
-// modalContainer의 자식요소 중에 데리고와라
 const settingBtn = document.querySelector('#setting-btn');
 const usernameObj = document.querySelector('#username');
+const boardContainer = document.querySelector('.board-container');
+const boardTotalCount = document.querySelector('#board-total-count');
 
 var page = 0;
 var username = usernameObj.value;
+var boardGroupItem = ``;
+var boardTotal = boardTotalCount.value;
 
 window.onscroll = () => {
-	console.log('window_scrollTop : ' + $(window).scrollTop());
-	console.log('window_height : ' + $(window).height());		// 한 화면이 보여질수 있는 높이
-	console.log('document_height : ' + $(document).height()); //문서 전체 높이
-	console.log($(document).height() - $(window).height() - $(window).scrollTop()); // 바닥 닿으면 0 이됌
-
+	let checkNum = $(document).height()-$(window).height()-$(window).scrollTop();
+	
+	if(checkNum < 1 && checkNum > -1 && boardTotal > (page+1)*9) {
+		page++;
+		boardLoad();
+	}
 }
+
+boardLoad();
 
 function boardLoad() {
 	$.ajax({
 		type: "get",
-		url: `/${username}?page=${page}`,
+		url: `/${username}/board?page=${page}`,
 		dataType: "text",
-		success: function(data) {
-			let boardList = JSON.parse(data);
-			getBoardItem(boardList)
+		success: function(data){
+			let boardGroupObj = JSON.parse(data);
+			boardGroupItem += getBoardGroup(boardGroupObj.boardGroup);
+			boardContainer.innerHTML = boardGroupItem;
 		},
-		error: function() {
-
+		error: function(){
+			alert('비동기 처리 오류.');
 		}
-
-	})
+	});
 }
 
-function getBoardGroup(boardList) {
-	let boardGroup =	`
-		<div class="board-item-group">
+function getBoardList(boardList) {
+	let result = ``;
+	
+	for(let board of boardList) {
+		result += `
 			<div class="board-item">
-				<img src="/images/signin_title.PNG" alt="">
-					<div class="board-item-hover">
-						<div class="board-item-like">
-							<i class="fas fa-heart"></i><span>91</span>
-						</div>
-						<div class="board-item-comment">
-							<i class="fas fa-comments"></i><span>30</span>
-						</div>
-					</div>
-                            </div>
-				<div class="board-item">
-					<img src="" alt="">
-						<div class="board-item-hover">
-							<div class="board-item-like">
-								<i class="fas fa-heart"></i><span>91</span>
-							</div>
-							<div class="board-item-comment">
-								<i class="fas fa-comments"></i><span>30</span>
-							</div>
-						</div>
-                  	</div>
-					<div class="board-item">
-						<img src="" alt="">
-							<div class="board-item-hover">
-								<div class="board-item-like">
-									<i class="fas fa-heart"></i><span>91</span>
-								</div>
-								<div class="board-item-comment">
-									<i class="fas fa-comments"></i><span>30</span>
-								</div>
-							</div>
-                        </div>
-					</div>
+				<input type="hidden" id="board_id" value="${board.id}">
+                <img src="/image/${board.board_img}" alt="">
+                <div class="board-item-hover">
+                    <div class="board-item-like">
+                        <i class="fas fa-heart"></i><span>0</span>
+                    </div>
+                    <div class="board-item-comment">
+                        <i class="fas fa-comment"></i><span>0</span>
+                    </div>
+                </div>
+            </div>
 		`;
+	}
+	return result;
+}
+
+function getBoardGroup(boardGroup) {
+	let boardGroupHtml = ``;
+	
+	for(let boardList of boardGroup){
+		let boardListHtml = getBoardList(boardList);
+		
+		boardGroupHtml += `
+			<div class="board-item-group">
+            	${boardListHtml}
+        	</div>
+		`;
+	}
+	
+	return boardGroupHtml;
 }
 
 settingBtn.onclick = () => {
-						modalContainer.classList.toggle('show');
+    modalContainer.classList.toggle('show');
 
-    if (modalContainer.classList.contains('show')) {    //show 상태면 ?
-						body.style.overflow = 'hidden'; // 스크롤 해제
+    if (modalContainer.classList.contains('show')) {
+        body.style.overflow = 'hidden';
     }
 }
-modalContainer.onclick = () => {    // 바깥쪽 클릭했을 때
-						modalContainer.classList.toggle('show');
 
-    if (!modalContainer.classList.contains('show')) { //show 가 없으면
-						body.style.overflow = 'auto';
+modalContainer.onclick = () => {
+    modalContainer.classList.toggle('show');
+
+    if (!modalContainer.classList.contains('show')) {
+        body.style.overflow = 'auto';
     }
 }
+
 modalBtns[0].onclick = () => {
-						location.href = '/accounts/password/change';
+    location.href = '/accounts/password/change';
 }
-
 modalBtns[1].onclick = () => {
-						location.replace('/logout');
+    location.replace('/logout');
 }
-modalBtns[2].onclick = () => {
-
-					}

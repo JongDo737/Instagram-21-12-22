@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class ProfileBoard {
 	private int id;
+	
 	private String board_img;
 	private String board_content;
 	

@@ -15,13 +15,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
 public class PageController {
-	
 	private final BoardService boardService;
 	
 	@GetMapping({"/", "/index"})
 	public String indexForm() {
 		return "index";
 	}
+	
 	@GetMapping("/auth/signin")
 	public String siginForm() {
 		return "auth/signin";
@@ -33,31 +33,32 @@ public class PageController {
 	}
 	
 	@GetMapping("/accounts/edit")
-	public String accountEditForm() {
+	public String accountsEditForm() {
 		return "accounts/accounts_edit";
 	}
 	
 	@GetMapping("/accounts/password/change")
-	public String accountPasswordForm() {
+	public String accountsPasswordForm() {
 		return "accounts/accounts_password";
 	}
+	
 	@GetMapping("/upload")
 	public String uploadForm() {
 		return "upload/upload";
 	}
-	@GetMapping("/{username}") //get방식이랑 조금 다름 쿼리스트링 방식이 아님
+	
+	@GetMapping("/{username}")
 	public String profileForm(Model model, @PathVariable String username, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 		ProfileRespDto profileRespDto = boardService.getProfileBoardTotalCount(username);
-		if(principalDetails != null && principalDetails.getUsername().equals(username)) {
+		if(principalDetails != null && principalDetails.getUser().getUsername().equals(username)) {
 			profileRespDto.setUsername(username);
 			profileRespDto.setProfile_img(principalDetails.getUserDtl().getProfile_img());
 			profileRespDto.setIntroduction(principalDetails.getUserDtl().getIntroduction());
 			
-			model.addAttribute(profileRespDto);
+			model.addAttribute("profileRespDto", profileRespDto);
 			
 			return "profile/my_profile";
-		}
-		else {
+		}else {
 			return "profile/my_profile";
 		}
 	}

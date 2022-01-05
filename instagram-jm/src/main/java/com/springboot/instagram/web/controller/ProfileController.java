@@ -16,11 +16,10 @@ public class ProfileController {
 	
 	private final BoardService boardService;
 	
-	@GetMapping("/{username}/board?page=${page}")
+	@GetMapping("/{username}/board")
 	public Object getProfileBoard(@PathVariable String username, @RequestParam int page) {
-		
-		ProfileBoardRespDto boardRespDto = boardService.getProfileBoard(username,page);
-		
-		return null;
+		ProfileBoardRespDto boardRespDto = boardService.getProfileBoard(username, page);
+		System.out.println(boardRespDto);
+		return boardRespDto;
 	}
 }
