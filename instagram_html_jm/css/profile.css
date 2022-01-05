@@ -176,3 +176,22 @@ section{
     font-size: 0.96em;
     font-weight: 300;
 }
+.modal-board-container2 {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.65);
+    width: 100%;
+    height: 100%;
+}
+
+.board-modal-body {
+    width: 1350px;
+    height: 900px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: white;
+}
