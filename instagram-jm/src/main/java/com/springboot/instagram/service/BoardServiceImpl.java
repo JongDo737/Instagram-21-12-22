@@ -62,11 +62,9 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public ProfileRespDto getProfileBoardTotalCount(String username) {
+	public int getProfileBoardTotalCount(String username) {
 		List<ProfileBoard> boardList = boardRepository.getProfileBoardListByUsername(username);
-		ProfileRespDto profileRespDto = new ProfileRespDto();
-		profileRespDto.setBoardTotalCount(boardList.size());
-		return profileRespDto;
+		return boardList.size();
 	}
 	
 	@Override

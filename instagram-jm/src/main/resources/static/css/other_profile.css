@@ -32,6 +32,17 @@
     margin-bottom: 20px;
 }
 
+.profile-info-top button{
+	margin-left: 20px;
+	border: 0px;
+	border-radius: 4px;
+	padding: 5px 10px;
+	color: white;
+	background-color: #0095f6;
+    font-weight: 500;
+    cursor: pointer;
+}
+
 .profile-username {
     font-size: 1.7em;
     font-weight: 200;
