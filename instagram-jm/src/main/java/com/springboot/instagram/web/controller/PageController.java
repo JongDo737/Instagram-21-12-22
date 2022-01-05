@@ -47,12 +47,14 @@ public class PageController {
 	}
 	@GetMapping("/{username}") //get방식이랑 조금 다름 쿼리스트링 방식이 아님
 	public String profileForm(Model model, @PathVariable String username, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-		ProfileRespDto profileRespDto = boardService.getProfileBoard(username);
+		ProfileRespDto profileRespDto = boardService.getProfileBoardTotalCount(username);
 		if(principalDetails != null && principalDetails.getUsername().equals(username)) {
 			profileRespDto.setUsername(username);
 			profileRespDto.setProfile_img(principalDetails.getUserDtl().getProfile_img());
 			profileRespDto.setIntroduction(principalDetails.getUserDtl().getIntroduction());
+			
 			model.addAttribute(profileRespDto);
+			
 			return "profile/my_profile";
 		}
 		else {

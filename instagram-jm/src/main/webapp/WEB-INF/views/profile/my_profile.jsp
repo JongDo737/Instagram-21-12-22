@@ -13,7 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram</title>
-    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/my_profile.css">
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 
@@ -167,7 +167,9 @@
             <button type="button">취소</button>
         </div>
     </div>
-    <script src="/js/profile.js"></script>
+    <input type="hidden" id="username" value="${profileRespDto.username }">
+    
+    <script src="/js/my_profile.js"></script>
 </body>
 
 </html>
