@@ -66,15 +66,21 @@
     </section>
     <div class="modal-container">
         <div class="setting-modal">
-            <button type="button">비밀번호 변경</button>
-            <button type="button">로그아웃</button>
-            <button type="button">취소</button>
+            <button type="button" class="setting-modal-btn">비밀번호 변경</button>
+            <button type="button" class="setting-modal-btn">로그아웃</button>
+            <button type="button" class="setting-modal-btn">취소</button>
         </div>
     </div>
     
+    <div class="modal-container">
+        <i id="close-btn" class="fas fa-times"></i>
+        <div class="board-modal-body">
+            
+        </div>
+    </div>
     <input type="hidden" id="username" value="${profileRespDto.username }">
     <input type="hidden" id="board-total-count" value="${profileRespDto.boardTotalCount }">
-    <script src="/js/other_profile.js"></script>
+    <script src="/js/my_profile.js"></script>
 </body>
 
 </html>

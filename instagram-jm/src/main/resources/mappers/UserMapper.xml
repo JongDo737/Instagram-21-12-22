@@ -21,7 +21,9 @@
 			#{email},
 			#{name},
 			#{username},
+			#{oauth2_username},
 			#{password},
+			#{provider},
 			#{role},
 			now(),
 			now()
@@ -35,6 +37,23 @@
 			user_mst
 		where
 			username = #{username};
+	</select>
+	<select id="getUserByOAuth2Username" resultType="com.springboot.instagram.domain.user.User" parameterType="String">
+		select
+			*
+		from
+			user_mst
+		where
+			oauth2_username = #{oauth2_username};
+	</select>
+	
+	<select id="getUserById" resultType="com.springboot.instagram.domain.user.User" parameterType="Integer">
+		select
+			*
+		from
+			user_mst
+		where
+			id = #{id};
 	</select>
 	
 	<select id="getUserDtlById" resultType="com.springboot.instagram.domain.user.UserDtl" parameterType="Integer">
