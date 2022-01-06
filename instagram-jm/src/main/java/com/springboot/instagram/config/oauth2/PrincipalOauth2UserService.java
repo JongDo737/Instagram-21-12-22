@@ -3,14 +3,17 @@ package com.springboot.instagram.config.oauth2;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import com.springboot.instagram.config.auth.PrincipalDetails;
 import com.springboot.instagram.config.oauth2.provider.Oauth2UserDto;
 import com.springboot.instagram.domain.user.User;
+import com.springboot.instagram.domain.user.UserDtl;
 import com.springboot.instagram.domain.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -54,8 +57,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		//naver 로그인으로 처음할 때 --> 회원가입 시키기
 		if(userEntity == null) {
 			userEntity = oAuth2UserDto.toEntity();
+			userEntity.setPassword(new BCryptPasswordEncoder().encode("qweqwe"));
+			userRepository.insertUser(userEntity);
 		}
+		UserDtl userDtlEntity = userRepository.getUserDtlById(userEntity.getId());
 		
-		return null;
+		return new PrincipalDetails(userEntity, userDtlEntity, oAuth2UserAttributes);
 	}
 }
