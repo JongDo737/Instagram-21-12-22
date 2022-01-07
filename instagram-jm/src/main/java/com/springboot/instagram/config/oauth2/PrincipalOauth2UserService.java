@@ -26,47 +26,41 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-		
-		OAuth2User oAuth2User =  super.loadUser(userRequest);
+		OAuth2User oAuth2User = super.loadUser(userRequest);
 		Map<String, Object> oAuth2UserAttributes = oAuth2User.getAttributes();
-		
 		String provider = userRequest.getClientRegistration().getRegistrationId();
-		// naver
 		String providerId = null;
-		System.out.println("Attributes : " + oAuth2UserAttributes);
+		System.out.println("Attributes: " + oAuth2UserAttributes);
 		if(provider.equals("naver")) {
-			oAuth2UserAttributes = (Map<String, Object>)oAuth2UserAttributes.get("response"); //response객체를
-			//response 안에 id가 key값으로 들어가있기 때문에 response 객체로 엎어버린 후에 id 값을 꺼내옴
-			providerId = (String)oAuth2UserAttributes.get("id"); //object -> Stirng 형변환
-		}else if(provider.equals("google")) {
+			oAuth2UserAttributes = (Map<String, Object>)oAuth2UserAttributes.get("response");
+			providerId = (String)oAuth2UserAttributes.get("id");
+		}else if(provider.equals("google")){
 			providerId = (String)oAuth2UserAttributes.get("sub");
-		
 		}else if(provider.equals("facebook")){
-			providerId = (String) oAuth2UserAttributes.get("id");
+			providerId = (String)oAuth2UserAttributes.get("id");
 		}else {
 			providerId = UUID.randomUUID().toString().replaceAll("-", "");
 		}
 		String oauth2_username = provider + "_" + providerId;
-		//naver_mt2S35CEshjGTABwrtEvtN2iqSmQXCNvv3RQSO_io
-		
+		//naver_RWELRPBLJfskpM0YVY-6SSUdjVDsJRAjADQi0xOq1zs
 		Oauth2UserDto oAuth2UserDto = Oauth2UserDto.builder()
 				.oauth2_username(oauth2_username)
 				.email((String)oAuth2UserAttributes.get("email"))
 				.name((String)oAuth2UserAttributes.get("name"))
-				.provider(providerId)
+				.provider(provider)
 				.role("ROLE_USER")
 				.build();
 		
 		User userEntity = userRepository.getUserByOAuth2Username(oauth2_username);
-		//naver 로그인으로 처음할 때 --> 회원가입 시키기
 		if(userEntity == null) {
 			userEntity = oAuth2UserDto.toEntity();
-			userEntity.setPassword(new BCryptPasswordEncoder().encode("qweqwe"));
+			userEntity.setPassword(new BCryptPasswordEncoder().encode("1234"));
 			userRepository.insertUser(userEntity);
-			userEntity = userRepository.getUserById(userEntity.getId());
+			userEntity = userRepository.getUserByOAuth2Username(oauth2_username);
 		}
 		UserDtl userDtlEntity = userRepository.getUserDtlById(userEntity.getId());
 		
 		return new PrincipalDetails(userEntity, userDtlEntity, oAuth2UserAttributes);
 	}
+	
 }

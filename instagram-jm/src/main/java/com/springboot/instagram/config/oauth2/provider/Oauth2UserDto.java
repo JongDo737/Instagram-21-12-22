@@ -19,10 +19,9 @@ public class Oauth2UserDto {
 				.username(oauth2_username)
 				.oauth2_username(oauth2_username)
 				.email(email)
+				.name(name)
 				.provider(provider)
 				.role(role)
 				.build();
-				
 	}
 }
-

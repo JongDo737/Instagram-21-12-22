@@ -38,6 +38,7 @@
 		where
 			username = #{username};
 	</select>
+	
 	<select id="getUserByOAuth2Username" resultType="com.springboot.instagram.domain.user.User" parameterType="String">
 		select
 			*
@@ -92,19 +93,15 @@
 		where
 			id = #{id};
 	</update>
-	<update id="updatePasswordById"  parameterType="com.springboot.instagram.domain.user.User" >
+	
+	<update id="updatePasswordById" parameterType="com.springboot.instagram.domain.user.User">
 		update
 			user_mst
 		set
 			password = #{password},
+			
 			update_date = now()
 		where
 			id = #{id};
-	
 	</update>
 </mapper>
-
-
-
-
-
