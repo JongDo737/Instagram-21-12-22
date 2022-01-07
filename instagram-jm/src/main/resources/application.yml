@@ -12,6 +12,12 @@ spring:  mvc:    view:      prefix: /WEB-INF/views/
   security:    user:      name: test
       password: 1234
     oauth2:      client:        registration:
+          google:
+            client-id: 767534446798-634e14uufo895i59hqsse8cb0ib23fh0.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+            - email
+            - profile
           naver:
             client-id: 7JO7PR5e7y4hqMYulpl0
             client-secret: Bil_DyUPju

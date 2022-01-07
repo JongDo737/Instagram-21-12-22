@@ -41,6 +41,7 @@
                                 <div class="hr-sect"><span>또는</span></div>
                             </div>
                             <div class="si-item">
+                            		<!-- 이 주소는 고정임 뒤에만 바뀐다. -->
                                 <a href="/oauth2/authorization/naver" class="si-facebook">
                                     <i class="fab fa-facebook-square"></i> <span>naver로 로그인</span>
                                 </a>
