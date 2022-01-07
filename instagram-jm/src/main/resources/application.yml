@@ -41,4 +41,6 @@ mybatis:  mapper-locations:  - /mappers/*.xml
   
 file:
   path: C:\fileupload\
-    
+#변수임
+test:
+  filename: test_file.txt

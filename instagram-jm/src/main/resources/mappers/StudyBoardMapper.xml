@@ -5,8 +5,7 @@
 
 <mapper
 	namespace="com.springboot.instagram.domain.board.BoardRepository">
-	<insert id="insertBoard"
-		parameterType="com.springboot.instagram.domain.board.Board">
+	<insert id="insertBoard" parameterType="com.springboot.instagram.domain.board.Board" >
 		insert into
 			board_mst
 		values(
