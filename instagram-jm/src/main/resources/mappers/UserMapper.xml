@@ -122,7 +122,7 @@
 			subscribe_mst
 		values(
 			#{from_user_id},
-			#{to_user_id};
+			#{to_user_id}
 		);
 	</insert>
 	<delete id="followCancel" parameterType="com.springboot.instagram.domain.user.Subscribe">

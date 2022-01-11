@@ -30,7 +30,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		Map<String, Object> oAuth2UserAttributes = oAuth2User.getAttributes();
 		String provider = userRequest.getClientRegistration().getRegistrationId();
 		String providerId = null;
-		System.out.println("Attributes: " + oAuth2UserAttributes);
 		if(provider.equals("naver")) {
 			oAuth2UserAttributes = (Map<String, Object>)oAuth2UserAttributes.get("response");
 			providerId = (String)oAuth2UserAttributes.get("id");

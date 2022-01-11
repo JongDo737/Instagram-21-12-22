@@ -23,10 +23,13 @@
                     <div class="board-item">
                         <div class="board-profile">
                             <div class="profile-img-border">
+                            	<!-- 프로필 이미지 -->
                                 <img src="/images/signin_title.PNG">
                             </div>
+                            <!-- 유저네임 -->
                             <div class="username-lb">
                                 <a href="#">
+                                	<!--  -->
                                     <h1>junil</h1>
                                 </a>
                             </div>

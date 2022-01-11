@@ -30,15 +30,14 @@
                     </div>
                     <div class="profile-info">
                         <div class="profile-info-top">
-                        		<input type="hidden" id="user-id" value="${profileRespDto.userId }"> 
+                        	<input type="hidden" id="user-id" value="${profileRespDto.userId }"> 
                             <h1 class="profile-username">${profileRespDto.username }</h1>
-                            <!-- 로그인 됐을때 안됐을 때  팔로우버튼 -->
                             <c:choose>
                             	<c:when test="${empty principal.user }">
-                            		<button type="button" class="logout-follow-btn" onclick="location.href = '/follow/'">팔로우</button>
+                            		<button type="button" class="logout-follow-btn">팔로우</button>
                             	</c:when>
                             	<c:otherwise>
-                            		<button type="button" class="login-follow-btn">${profileRespDto.follow }</button>                            		
+                            		<button type="button" class="login-follow-btn">${profileRespDto.follow }</button>
                             	</c:otherwise>
                             </c:choose>
                         </div>
@@ -66,22 +65,16 @@
         </main>
     </section>
     <div class="modal-container">
-        <div class="setting-modal">
-            <button type="button" class="setting-modal-btn">비밀번호 변경</button>
-            <button type="button" class="setting-modal-btn">로그아웃</button>
-            <button type="button" class="setting-modal-btn">취소</button>
-        </div>
-    </div>
-    
-    <div class="modal-container">
         <i id="close-btn" class="fas fa-times"></i>
         <div class="board-modal-body">
             
         </div>
     </div>
+    
+    
     <input type="hidden" id="username" value="${profileRespDto.username }">
     <input type="hidden" id="board-total-count" value="${profileRespDto.boardTotalCount }">
-    <script src="/js/my_profile.js"></script>
+    <script src="/js/other_profile.js"></script>
 </body>
 
 </html>
