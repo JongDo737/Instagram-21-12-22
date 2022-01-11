@@ -19,7 +19,6 @@ public class ProfileController {
 	@GetMapping("/{username}/board")
 	public Object getProfileBoard(@PathVariable String username, @RequestParam int page) {
 		ProfileBoardRespDto boardRespDto = boardService.getProfileBoard(username, page);
-		System.out.println(boardRespDto);
 		return boardRespDto;
 	}
 }

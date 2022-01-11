@@ -19,12 +19,17 @@ public class ProfileServiceImpl implements ProfileService{	//otherÏù¥ profile Î≥
 	@Override
 	public ProfileRespDto getProfile(String username) { 
 		User userEntity = userRepository.getUserByUsername(username);
-		UserDtl userDtl = userRepository.getUserDtlById(userEntity.getId());
-		
 		ProfileRespDto profileRespDto = new ProfileRespDto();
-		profileRespDto.setProfile_img(username);
-		profileRespDto.setProfile_img(userDtl.getProfile_img());
-		profileRespDto.setIntroduction(userDtl.getIntroduction());
+		
+		if(userEntity!=null) {
+			UserDtl userDtl = userRepository.getUserDtlById(userEntity.getId());
+			profileRespDto.setUserId(userEntity.getId());
+			profileRespDto.setProfile_img(username);
+			profileRespDto.setProfile_img(userDtl.getProfile_img());
+			profileRespDto.setIntroduction(userDtl.getIntroduction());
+			
+		}
+		
 		
 		return profileRespDto;
 	}

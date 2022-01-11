@@ -5,6 +5,7 @@ const usernameObj = document.querySelector('#username');
 const boardContainer = document.querySelector('.board-container');
 const boardTotalCount = document.querySelector('#board-total-count');
 const logoutFollowBtn = document.querySelector('.logout-follow-btn');
+const loginFollowBtn = document.querySelector('.login-follow-btn');
 
 var page = 0;
 var username = usernameObj.value;
@@ -171,3 +172,31 @@ function boardItemClick() {
 		}
 	}
 }
+function follow() {
+	$.ajax({
+		type: 'post',
+		url: `/api/follow/${userId}`,
+		
+		
+	});
+}
+function followCancel() {
+	
+}
+
+loginFollowBtn.onclick = () => {
+	if(loginFollowBtn.textContent == '팔로우'){
+		// POST요청 --> /api/follow/userId
+	}else{
+		// DELETE요청 --> /api/follow/userId
+		
+	}
+}
+
+
+
+
+
+
+
+

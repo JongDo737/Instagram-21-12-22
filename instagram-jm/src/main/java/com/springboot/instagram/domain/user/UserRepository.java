@@ -1,5 +1,7 @@
 package com.springboot.instagram.domain.user;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,11 @@ public interface UserRepository {
 	public int updateUserById(User user);
 	public int updateUserDtlById(UserDtl userDtl);
 	public int updatePasswordById(User user);
+	
+	//follow
+	public int follow(Subscribe subscribe);
+	public int followCancel(Subscribe subscribe);
+	public List<Subscribe> getFollow(Subscribe subscribe);
 	
 	
 }

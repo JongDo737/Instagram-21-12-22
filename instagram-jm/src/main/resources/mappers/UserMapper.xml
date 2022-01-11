@@ -93,7 +93,20 @@
 		where
 			id = #{id};
 	</update>
-	
+	<select id="getFollow" resultType="com.springboot.instagram.domain.user.Subscribe" parameterType="com.springboot.instagram.domain.user.Subscribe">
+		select
+			sm.from_user_id,
+			um.username as from_username,
+			sm.to_user_name,
+			um2.username as to_username
+		from
+			subscribe_mst sm
+			left outer join user_mst um on(um.id = sm.from_user_id)
+			left outer join user_mst um2 on(um2.id = sm.to_user_id)
+		where
+			sm.from_user_id = #{from_user_id}
+		and sm.to_user_id = #{to_user_id};
+	</select>
 	<update id="updatePasswordById" parameterType="com.springboot.instagram.domain.user.User">
 		update
 			user_mst
@@ -104,4 +117,22 @@
 		where
 			id = #{id};
 	</update>
+	<insert id="follow" parameterType="com.springboot.instagram.domain.user.Subscribe">
+		insert 
+			subscribe_mst
+		values(
+			#{from_user_id},
+			#{to_user_id};
+		);
+	</insert>
+	<delete id="followCancel" parameterType="com.springboot.instagram.domain.user.Subscribe">
+		delete
+		from
+			subscribe_mst
+		where
+			from_user_id = #{from_user_id}
+		and to_user_id = #{to_user_id};
+	
+	</delete>
+	
 </mapper>

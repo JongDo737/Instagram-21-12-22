@@ -1,0 +1,127 @@
+@charset "UTF-8";
+.board-item {
+    border: 1px solid #dbdbdb;
+    margin-bottom: 20px;
+    width: 600px;
+    border-radius: 4px;
+    background-color: white;
+    overflow: hidden;
+}
+
+.board-profile {
+    display: flex;
+    align-items: center;
+    padding: 15px 10px;
+    border-bottom: 1px solid #dbdbdb;
+    
+}
+
+.profile-img-border {
+    margin: 0px 5px;
+    border: 0px;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 30px;
+    height: 30px;
+}
+
+.profile-img-border img {
+    max-width: 30px;
+}
+
+.username-lb {
+    display: flex;
+    align-items: flex-end;
+    margin: 0px 10px;
+    padding: 0px 0px 5px;
+}
+
+.username-lb h1 {
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #0b0b0b;
+}
+
+.board-img {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    background-color: #fafafa;
+}
+
+.board-img {
+    width: 100%;
+}
+
+.board-btns {
+    display: flex;
+    align-items: center;
+    padding: 15px 15px;
+    border-bottom: 1px solid #dbdbdb;
+    border-top: 1px solid #dbdbdb;
+}
+
+.board-btns i {
+    margin-right: 10px;
+    font-size: 1.6em;
+    cursor: pointer;
+}
+
+.board-btns i:hover {
+    color: rgb(136, 136, 136);
+}
+
+.board-like-count {
+    padding: 10px 15px;
+    font-weight: 500;
+}
+
+.board-contents {
+    border-bottom: 1px solid #dbdbdb;
+}
+
+.board-content {
+    display: flex;
+    padding: 0px 15px;
+}
+
+.board-content pre .username-lb {
+    display: inline-block;
+    margin: 0;
+    margin-right: 7px;
+    font-weight: 500;
+}
+
+.board-content pre {
+    width: 100%;
+    max-height: 200px;
+    overflow: auto;
+}
+
+.board-comment {
+    overflow: auto;
+}
+
+.board-comment-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 15px;
+    height: 50px;
+}
+
+.board-comment-input input {
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 100%;
+}
+.board-comment-input button {
+    border: none;
+    width: 40px;
+    height: 100%;
+    background-color: white;
+    font-weight: 500;
+    color: #0095f6;
+    cursor: pointer;
+}
