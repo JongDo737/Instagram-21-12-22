@@ -2,45 +2,20 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper
-	namespace="com.springboot.instagram.domain.board.BoardRepository">
-	<insert id="insertBoard" parameterType="com.springboot.instagram.domain.board.Board" >
-		insert into
-			board_mst
-		values(
-			0,
-			#{board_img},
-			#{board_content},
-			#{user_id},
-			now(),
-			now()
-		);
-	</insert>
-	<select id="getProfileBoardListByUsername" resultType="com.springboot.instagram.domain.board.ProfileBoard" parameterType="String">
+  
+<mapper namespace="com.springboot.instagram.boardstudy.db.BRepository">
+	<select id="getBoardList" resultType="com.springboot.instagram.boardstudy.db.BoardStudy">
 		SELECT
-			bm.id,
+			bm.id AS board_id,
 			bm.board_img,
 			bm.board_content,
 			bm.user_id,
 			um.username,
+			ud.profile_img,
 			bm.update_date
 		FROM
 			board_mst bm
-			LEFT OUTER JOIN user_mst um ON(bm.user_id = um.id)
-		WHERE
-			um.username = #{username}
-		ORDER BY
-			bm.update_date desc,
-			bm.id desc;
-	</select>
-	<select id="getBoardById" resultType="com.springboot.instagram.domain.board.Board" parameterType="Integer">
-		select
-			*
-		from
-			board_mst
-		where
-			id = #{board_id};
-	
+			LEFT OUTER JOIN user_mst um ON(um.id = bm.user_id)
+			LEFT OUTER JOIN user_dtl ud ON(ud.id = bm.user_id);
 	</select>
 </mapper>

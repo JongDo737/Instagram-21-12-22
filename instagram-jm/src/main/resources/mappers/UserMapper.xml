@@ -97,7 +97,7 @@
 		select
 			sm.from_user_id,
 			um.username as from_username,
-			sm.to_user_name,
+			sm.to_user_id,
 			um2.username as to_username
 		from
 			subscribe_mst sm

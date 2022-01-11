@@ -5,7 +5,11 @@ const usernameObj = document.querySelector('#username');
 const boardContainer = document.querySelector('.board-container');
 const boardTotalCount = document.querySelector('#board-total-count');
 const logoutFollowBtn = document.querySelector('.logout-follow-btn');
+var boardItem = document.querySelectorAll('.board-item');
 const loginFollowBtn = document.querySelector('.login-follow-btn');
+const userIdObj = document.querySelector('#user-id');
+
+var userId = userIdObj.value;
 
 var page = 0;
 var username = usernameObj.value;
@@ -18,6 +22,16 @@ window.onscroll = () => {
 	if(checkNum < 1 && checkNum > -1 && boardTotal > (page+1)*9) {
 		page++;
 		boardLoad();
+	}
+}
+
+modalContainer.onclick = (event) => {
+	if(event.target == modalContainer){
+	    modalContainer.classList.toggle('show');
+	
+	    if (!modalContainer.classList.contains('show')) {
+	        body.style.overflow = 'auto';
+	    }
 	}
 }
 
@@ -84,21 +98,11 @@ if(typeof(logoutFollowBtn) != undefined && logoutFollowBtn != null){
 		location.href = '/';
 	}
 }
-modalContainer.onclick = (event) => {
-    if(event.target == modalContainer){
-		
-    	modalContainer.classList.toggle('show');
-
-   	 	if (!modalContainer.classList.contains('show')) {
-   	    	 body.style.overflow = 'auto';
-   	 	}
-	}
-}
 
 function getBoardItem(board){
 	let result = `
-		 <div class="board-modal-img">
-            <img class="board-modal-img-preview" src="/image/${board.boardImg}">
+		<div class="board-modal-img">
+            <img class="board-modal-img-preview" src="/image/${board.boardImg }">
         </div>
         <div class="board-modal-section">
             <div class="board-modal-profile">
@@ -111,15 +115,14 @@ function getBoardItem(board){
                     </a>
                 </div>
             </div>
-            <div>
-                <div class="board-modal-contents">
+            <div class="board-modal-contents">
+                <div class="board-modal-content">
                     <div class="profile-img-border">
                         <img src="/image/${board.profileImg }">
                     </div>
                     <pre><div class="username-lb"><a href="/${board.username }"><h1>${board.username }</h1></a></div>${board.boardContent}</pre>
                 </div>
                 <div class="board-modal-comment">
-                
                 </div>
             </div>
             <div class="board-modal-items">
@@ -128,22 +131,19 @@ function getBoardItem(board){
                 <i class="far fa-paper-plane"></i>
             </div>
             <div class="board-modal-like-info">
-                <span>jongmin님 외 13k명이 좋아합니다.</span>
+                <span>aaaa님 외 55명이 좋아합니다</span>
             </div>
             <div class="board-modal-comment-input">
                 <input type="text">
                 <button type="button">게시</button>
             </div>
-
         </div>
 	`;
 	return result;
 }
 
-
 function getBoard(i){
 	let boardId = boardItem[i].querySelector('#board_id');
-	
 	$.ajax({
 		type: "get",
 		url: `/board/${boardId.value}`,
@@ -157,7 +157,6 @@ function getBoard(i){
 			alert('비동기 처리 오류.');
 		}
 	});
-	
 }
 
 function boardItemClick() {
@@ -172,31 +171,45 @@ function boardItemClick() {
 		}
 	}
 }
-function follow() {
+
+function follow(){
 	$.ajax({
 		type: 'post',
 		url: `/api/follow/${userId}`,
-		
-		
+		dataType: 'text',
+		success: function(data){
+			if(data == '1'){
+				loginFollowBtn.textContent = '팔로우 취소';
+			}
+		},
+		error: function(){
+			alert('비동기 처리 오류.');
+		}
 	});
 }
-function followCancel() {
-	
+
+function followCancel(){
+	$.ajax({
+		type: 'delete',
+		url: `/api/follow/${userId}`,
+		dataType: 'text',
+		success: function(data){
+			if(data == '1'){
+				loginFollowBtn.textContent = '팔로우';
+			}
+		},
+		error: function(){
+			alert('비동기 처리 오류.');
+		}
+	});
 }
 
 loginFollowBtn.onclick = () => {
 	if(loginFollowBtn.textContent == '팔로우'){
-		// POST요청 --> /api/follow/userId
-	}else{
-		// DELETE요청 --> /api/follow/userId
-		
+		// Post -> /api/follow/userId
+		follow();
+	}else {
+		// Delete -> /api/follow/userId
+		followCancel();
 	}
 }
-
-
-
-
-
-
-
-

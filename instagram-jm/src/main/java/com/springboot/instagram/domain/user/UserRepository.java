@@ -26,7 +26,7 @@ public interface UserRepository {
 	//follow
 	public int follow(Subscribe subscribe);
 	public int followCancel(Subscribe subscribe);
-	public List<Subscribe> getFollow(Subscribe subscribe);
+	public Subscribe getFollow(Subscribe subscribe);
 	
 	
 }
