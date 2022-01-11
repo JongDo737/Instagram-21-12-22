@@ -43,4 +43,40 @@
 		where
 			id = #{board_id};
 	</select>
+	<select id="getIndexBoardListByUsername" resultType="com.springboot.instagram.domain.board.IndexBoard" parameterType="String">
+		SELECT
+			sm.to_user_id AS user_id,
+			um.username,
+			bm.id AS board_id,
+			bm.board_img,
+			bm.board_content,
+			bm.update_date
+		FROM
+			subscribe_mst sm
+			LEFT OUTER JOIN user_mst um ON(um.id = sm.from_user_id)
+			left OUTER JOIN user_dtl ud ON(ud.id = um.id)
+			INNER JOIN board_mst bm ON(bm.user_id = sm.to_user_id)
+		WHERE
+			um.username = #{username}
+		
+		union
+			
+		SELECT
+			bm.user_id,
+			um.username,
+			bm.id AS board_id,
+			bm.board_img,
+			bm.board_content,
+			bm.update_date
+		FROM
+			board_mst bm
+			LEFT OUTER JOIN user_mst um ON(um.id = bm.user_id)
+			left OUTER JOIN user_dtl ud ON(ud.id = um.id)
+		WHERE
+			um.username = #{username}
+		
+		ORDER BY 
+			update_date DESC,
+			board_id DESC;
+	</select>
 </mapper>
