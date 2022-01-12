@@ -9,4 +9,5 @@ import lombok.Data;
 @Data
 public class IndexBoardRespDto {
 	private List<IndexBoard> indexBoardList;
+	private int indexBoardTotalCount;
 }

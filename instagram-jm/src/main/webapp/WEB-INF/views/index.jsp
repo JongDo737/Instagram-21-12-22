@@ -17,7 +17,10 @@
         <jsp:include page="./include/nav.jsp"></jsp:include>
         <main>
             <div class="container">
-                      
+            	<div class="board-group">
+                
+                </div>
+                 
             </div>
         </main>
     </section>

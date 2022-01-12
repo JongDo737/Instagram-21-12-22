@@ -121,6 +121,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 		IndexBoardRespDto indexBoardRespDto = new IndexBoardRespDto();
 		indexBoardRespDto.setIndexBoardList(indexBoardList);
+		indexBoardRespDto.setIndexBoardTotalCount(indexBoardListTotalCount);
 
 		return indexBoardRespDto;
 	}

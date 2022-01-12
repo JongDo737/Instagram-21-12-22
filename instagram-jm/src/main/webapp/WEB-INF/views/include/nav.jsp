@@ -42,7 +42,9 @@
                 		</c:when>
                 		<c:otherwise>
                 			<div class="nav-item">
+                				<a href="/">                				
                         			<i class="fas fa-home" id="nav-home-icon"></i>
+                				</a>
                     		</div>
                     		<div class="nav-item">
                     			<a href="/upload">
